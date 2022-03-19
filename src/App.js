@@ -1,9 +1,11 @@
+import DirectoryMenu from './components/directory/directory-menu.component';
+
 import './App.css';
-import HomePage from './components/homepage/homepage.component';
 
 function App() {
+  
   return (
-    <HomePage/>
+   <DirectoryMenu />
   );
 }
 
