@@ -1,9 +1,10 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from "firebase/auth";
 
 import {
@@ -15,12 +16,12 @@ import {
 } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCpFqGsj0DBgNen-bP3RNcLamgIfKLKhnM",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "resale-db.firebaseapp.com",
   projectId: "resale-db",
   storageBucket: "resale-db.appspot.com",
-  messagingSenderId: "353711806679",
-  appId: "1:353711806679:web:4e234ba2d17105cc417892",
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -38,7 +39,7 @@ export const sigInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) =>{
+export const createUserDocumentFromAuth = async (userAuth, aditionalData) =>{
   const userDocRef = doc(db, 'users', userAuth.uid)
   console.log(userDocRef)
 
@@ -54,7 +55,8 @@ export const createUserDocumentFromAuth = async (userAuth) =>{
       await setDoc(userDocRef,{
         displayName,
         email,
-        createdAt
+        createdAt,
+        ...aditionalData
       });
     } catch (err) {
       console.log('error creating the user',err.message)
@@ -66,5 +68,17 @@ export const createUserDocumentFromAuth = async (userAuth) =>{
 //if user datda does not exist 
   //create / set the document with the data from userAuth in my collection
 
-  return userDocRef;
+  return userDocRef; 
 }
+
+export const getAuthWithEmailAndPassword =async (email,password) =>{
+if(!email || !password) return;
+const response = createUserWithEmailAndPassword(auth,email,password)
+return response
+}
+
+export const SignInAuthWithEmailAndPassword =async (email,password) =>{
+  if(!email || !password) return;
+  const response = signInWithEmailAndPassword(auth,email,password)
+  return response
+  }
