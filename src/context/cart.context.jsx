@@ -25,7 +25,7 @@ const removeCartItem = (cartItems, productToRemove) => {
   );
   // check if quantity is equal to  1 , if it is is remove that item from the cart
   if (existingCartItems.quantity === 1)
-    return cartItems.filter((cartItem) => cartItem.id != productToRemove.id);
+    return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
 
   // return back canrtitems with matching cart item with reduced quantity
   return cartItems.map((cartItem) =>
@@ -41,7 +41,7 @@ const clearCartItem = (cartItems, productToClear) => {
   );
 
   if (existingCartItems) {
-    return cartItems.filter((cartItem) => cartItem.id != productToClear.id);
+    return cartItems.filter((cartItem) => cartItem.id !== productToClear.id);
   }
 };
 export const CartContext = createContext({

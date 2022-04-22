@@ -1,6 +1,6 @@
 import FormInput from "../form-input/form-input.component";
 
-import { useState, useContext } from "react";
+import { useState } from "react";
 import {
   getAuthWithEmailAndPassword,
   createUserDocumentFromAuth,
