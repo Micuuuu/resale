@@ -21,7 +21,7 @@ const CartDropdown = () => {
       </div>
       <Link to="/checkout">
         {" "}
-        <Button buttonType={"inverted"}> GO TO CHECKOUT </Button>{" "}
+        <Button buttonType={"inverted"}  > GO TO CHECKOUT </Button>{" "}
       </Link>
     </div>
   );

@@ -3,11 +3,11 @@ import { selectCartItems } from "../../store/cart/cart.selector";
 import { selectCartTotal } from "../../store/cart/cart.selector";
 
 import CheckOutProduct from "../../components/check-out-product-card/check-out-product.component";
-
+import PaymentForm from "../../components/payment-form/payment-form.component";
 import "./checkOut.styles.scss";
 
 const CheckOutPage = () => {
-  const  cartItems  = useSelector(selectCartItems);
+  const cartItems = useSelector(selectCartItems);
   const total = useSelector(selectCartTotal);
   return (
     <div className="checkOut-container">
@@ -25,6 +25,7 @@ const CheckOutPage = () => {
         })}
       </div>
       <span className="total">{`Total: ${total}$`}</span>
+      <PaymentForm />
     </div>
   );
 };
