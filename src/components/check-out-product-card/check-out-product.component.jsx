@@ -6,6 +6,8 @@ import {
 } from "../../store/cart/cart.action";
 import { selectCartItems } from "../../store/cart/cart.selector";
 import "./check-out-product.styles.scss";
+import {ReactComponent as RemoveClosedIcon} from '../../assets/closed-trash.svg';
+import {ReactComponent as RemoveOpenIcon} from '../../assets/open-trash.svg';
 
 const CheckOutProduct = ({items }) => {
   const { name, imageUrl, price, quantity } = items;
@@ -13,29 +15,24 @@ const CheckOutProduct = ({items }) => {
   const dispatch = useDispatch();
   return (
     <div className="checkout-item-container">
-      <img src={imageUrl} alt={`${name}`} />
+      <div clasName = "checkout-item-image-container" >
+      <img className="checkout-item-image" src={imageUrl} alt={`${name}`} />
+      </div>
+      
       <span className="name">{name}</span>
       <div className="quantity">
-        <div
-          className="arrow"
-          onClick={() => dispatch(removeItemFromCart(cartItems, items))}
-        >
-          &#10094;
-        </div>
-        <span className="value">{quantity}</span>
-        <div
-          className="arrow"
-          onClick={() => dispatch(addItemToCart(cartItems, items))}
-        >
-          &#10095;
-        </div>
+       
+        <span className="value">M</span>
+        
       </div>
-      <span className="price">{`${price}$`}</span>
+      <span className="price">{`$${price}`}</span>
       <div
-        className="remove-button"
+        className="remove-button-container"
         onClick={() => dispatch(clearItemFromCart(cartItems, items))}
       >
-        &#10005;
+        <RemoveClosedIcon className="remove-closed-button"/>
+        <RemoveOpenIcon className="remove-open-button"/>
+
       </div>
     </div>
   );

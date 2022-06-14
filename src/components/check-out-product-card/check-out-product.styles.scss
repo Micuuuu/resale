@@ -1,33 +1,89 @@
 .checkout-item-container{
-    width: 100vh;
-    display: flex;
-    border-bottom: 1px solid darkgrey;
-    padding: 15px 0;
+  display: grid;
+  grid-template-columns: 25% 30% 15% 15% 15%;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid darkgrey;
+  padding-bottom: 2rem;
+  .checkout-item-image{
+    height: 180px;
+    width: 130px;
+    border-radius: 15px;
+
+  }
+
+  .name{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
     font-size: 20px;
-    align-items: center;
-    img{
-        width: 23%;
-        padding-right: 15px;
-    }
-  .name,
-  .quantity,
-  .price {
-    width: 23%;
+
+    color: #444444;
   }
-  .quantity {
+
+  .value{
+    width: 40px;
+    height: 40px;
     display: flex;
-
-    .arrow {
-      cursor: pointer;
-    }
-
-    .value {
-      margin: 0 10px;
-    }
+    align-items: center;
+    justify-content: center;
+    background-color: #E55B5B;
+    border-radius: 50%;
+    margin:0;
+    color:white;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
   }
 
-  .remove-button {
-    padding-left: 12px;
-    cursor: pointer;
+  .price{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    color: #797979;
   }
+
+  
+
+  .remove-button-container{
+    width: 70px;
+    height: 70px;
+    cursor:pointer;
+
+    .remove-closed-button{
+      width: 50px;
+      height: 50px;
+      fill:#E55B5B;
+      position: relative;
+      top:15%
+  
+    
+      
+    }
+
+    .remove-open-button{
+      height: 50px;
+      width: 50px;
+      fill:#E55B5B;
+      display: none;
+      position: relative;
+      top:15%
+    }
+    &:hover{
+
+      .remove-closed-button{
+      
+      display: none;
+      }
+      .remove-open-button{
+        display: block;
+      }
+    }
+    }
+   
+
+  
+    
 }

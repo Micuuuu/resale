@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getStorage} from "firebase/storage";
+
 import {
   getAuth,
   signInWithPopup,
@@ -6,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import {
@@ -14,12 +16,16 @@ import {
   doc,
   getDoc,
   setDoc,
-  
   collection,
   writeBatch,
   query,
-  getDocs
-} from "firebase/firestore"
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  increment,
+  arrayRemove
+} from "firebase/firestore";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -31,38 +37,45 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
- initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
-  prompt: "select_account"
-
-})
+  prompt: "select_account",
+});
 
 export const auth = getAuth();
 export const sigInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) =>{
-  const collectionRef =  collection(db, collectionKey)
-  const batch = writeBatch(db);   //!TRANZACTII
-    objectsToAdd.forEach(element => {
-      const docRef = doc(collectionRef, element.title.toLowerCase());
-      batch.set(docRef, element) 
-    });
+export const storage = getStorage();
 
-    await batch.commit()
-    console.log("done");
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db); //!TRANZACTII
+  objectsToAdd.forEach((element) => {
+    const docRef = doc(collectionRef, element.title.toLowerCase());
+    batch.set(docRef, element);
+  });
+
+  await batch.commit();
+  console.log("done");
 };
 
 export const getCategoriesAndDocuments = async () => {
-  const collectionRef= collection(db, 'categories');
+  const collectionRef = collection(db, "items");
   const q = query(collectionRef);
   const querySnapshot = await getDocs(q);
 
-  return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+  
+  
+  //din curs
   // .reduce((acc, docSnapshot) =>{
   //   const {title, items} = docSnapshot.data()
   //   acc[title.toLowerCase()] =items;
@@ -70,53 +83,163 @@ export const getCategoriesAndDocuments = async () => {
   // }, {}  );
 
   //return categoryMap;
-}
-export const createUserDocumentFromAuth = async (userAuth, aditionalData) =>{
-  const userDocRef = doc(db, 'users', userAuth.uid)
+};
 
+export const getUserData = async () => {
+  const collectionRef = collection(db, "users");
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+  // .reduce((acc, docSnapshot) =>{
+  //   const {title, items} = docSnapshot.data()
+  //   acc[title.toLowerCase()] =items;
+  //   return acc;
+  // }, {}  );
+
+  //return categoryMap;
+};
+export const createUserDocumentFromAuth = async (userAuth, aditionalData) => {
+  const userDocRef = doc(db, "users", userAuth.uid);
+  const uid = userAuth.uid
   const userSnapshot = await getDoc(userDocRef);
-  
-//check if user data exist
-  if(!userSnapshot.exists())
-  {
-    const {displayName, email} = userAuth;
-    const  createdAt = new Date();
+
+  //check if user data exist
+  if (!userSnapshot.exists()) {
     
-    try{
-      await setDoc(userDocRef,{
+    const { displayName, email, photoURL } = userAuth;
+    const createdAt = new Date();
+  try {
+      await setDoc(userDocRef, {
+        uid,
         displayName,
         email,
         createdAt,
-        ...aditionalData
+        photoURL: "https://firebasestorage.googleapis.com/v0/b/resale-db.appspot.com/o/images%2FPngItem_1503945.png?alt=media&token=0d33f901-39f1-4c6c-b729-c8c89f31a766",
+        ...aditionalData,
+        shippingAddress: {
+          name: "",
+          country: "",
+          county: "",
+          city: "",
+          address: "",
+          zipCode: "",
+          phoneNumber: "",
+        },
+        followersCount: 0,
+        following: [],
+        soldItemsCount: 0,
       });
     } catch (err) {
-      console.log('error creating the user',err.message)
+      console.log("error creating the user", err.message);
     }
   }
-  
-//if user data exist
+
+  //if user data exist
   //return userdocref
-//if user datda does not exist 
+  //if user datda does not exist
   //create / set the document with the data from userAuth in my collection
 
-  return userDocRef; 
+  return userDocRef;
+};
+
+export const updateUserDocument = async (userAuth, aditionalData, name) => {
+  const userDocRef = doc(db, "users", userAuth.uid);
+
+  if(name === "shippingAddress")
+  {
+        try {
+        await updateDoc(userDocRef, {shippingAddress:aditionalData});
+      } catch (err) {
+        console.log("error creating the user", err.message);
+      }
+  }
+  if( name === "photoURL")
+  {
+    try {
+      await updateDoc(userDocRef, {photoURL:aditionalData});
+    } catch (err) {
+      console.log("ERROR ADDING PROFILE image", err.message);
+    }
+  }
+ 
+  
+  
 }
 
-export const getAuthWithEmailAndPassword =async (email,password) =>{
-if(!email || !password) return;
-const response = createUserWithEmailAndPassword(auth,email,password)
-return response
+
+export const updateUserFollowersCount = async (userAuth) => {
+  const userDocRef = doc(db, "users", userAuth);
+
+  
+    try {
+      await updateDoc(userDocRef, {followersCount:increment(1)});
+    } catch (err) {
+      console.log("error creating the user", err.message);
+    }
+  
+  
 }
 
-export const SignInAuthWithEmailAndPassword =async (email,password) =>{
-  if(!email || !password) return;
-  const response = signInWithEmailAndPassword(auth,email,password)
-  return response
+export const updateUserFollowingList = async (userAuth, aditionalData) => {
+  const userDocRef = doc(db, "users", userAuth);
+
+  try {
+    await updateDoc(userDocRef, "following" , arrayUnion(aditionalData));
+  } catch (err) {
+    console.log("error creating the user", err.message);
+  }
+}
+
+
+export const createItemsDocument = async (userDoc, aditionalData) => {
+  const {price,gender,title, category, material, size, color, brand, itemDescription, url,item_id} = aditionalData;
+  
+  const {uid, email} =userDoc;
+   const DocRef = doc(db, "items", category);
+   const createdAt = new Date();
+  
+    try {
+    await updateDoc(DocRef,  {items: arrayUnion({createdAt:createdAt, id:item_id, price:price, owner:{uid,email}, gender: gender, name: title, material: material, size: size, 
+    color: color, brand: brand, itemDescription: itemDescription, imageUrl: url,category: category})});
+  } catch (err) {
+    console.log("error creating the user", err.message);
   }
 
-export const SignOutUser = async ()  => signOut(auth)
-
-export const onAuthStateChangedListener = (callback)  => 
-{
-  onAuthStateChanged(auth, callback)
+  
 }
+
+
+export const updateItemsDocument = async (category,updates, defaults) => {
+  const userDocRef = doc(db, "items", category);
+  const {price,gender,title,  material, size, color, brand, itemDescription, url,item_id, owner, createdAt} = updates;
+  try {
+    await updateDoc(userDocRef,  {items: arrayRemove(defaults)});
+    await updateDoc(userDocRef,  {items: arrayUnion(updates)});
+
+  } catch (err) {
+    console.log("error creating the user", err.message);
+  }
+
+ 
+ 
+}
+export const getAuthWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  const response = createUserWithEmailAndPassword(auth, email, password);
+  return response;
+};
+
+export const SignInAuthWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  const response = signInWithEmailAndPassword(auth, email, password);
+  return response;
+};
+
+export const SignOutUser = async () => signOut(auth);
+
+export const onAuthStateChangedListener = (callback) => {
+  onAuthStateChanged(auth, callback);
+};
+
+
+getUserData();

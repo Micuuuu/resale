@@ -4,16 +4,16 @@ import { useDispatch } from 'react-redux';
 
 import CategoriesPreview from '../categories-preview/categories-preview.component';
 import Category from '../category/category.component';
+import ProductDetails from '../../components/product-details/product-details.component';
 import { getCategoriesAndDocuments } from '../../utils/firebase/firebase.utils';
-
 import {setCategories} from "../../store/categories/category.action"
+import ProductEditForm from '../../components/product-edit/product-edi.component';
 const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getCategoriesMap =  async () => {
        const categoryArray = await  getCategoriesAndDocuments();
-       
        dispatch(setCategories(categoryArray));
     }
     getCategoriesMap();
@@ -23,7 +23,10 @@ const Shop = () => {
         <Routes>
             <Route index element = {<CategoriesPreview />} />
             <Route path = ':category' element = {<Category />} />
+            <Route path = ':category/:id/details' element = {<ProductDetails />} />
+            <Route path = ':category/:id/edit' element = {<ProductEditForm />} />
 
+            
         </Routes>
         );
 //     <Fragment>

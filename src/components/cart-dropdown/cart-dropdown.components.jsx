@@ -9,7 +9,7 @@ import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 const CartDropdown = () => {
   const cartItems = useSelector(selectCartItems);
-  console.log(cartItems)
+  /* console.log(cartItems) */
   return (
     <div className="cart-dropdown-container">
       <div className="cart-items">
@@ -21,7 +21,7 @@ const CartDropdown = () => {
       </div>
       <Link to="/checkout">
         {" "}
-        <Button buttonType={"inverted"}  > GO TO CHECKOUT </Button>{" "}
+        <Button buttonType={"inverted"}> GO TO CHECKOUT </Button>{" "}
       </Link>
     </div>
   );

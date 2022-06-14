@@ -7,22 +7,22 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import Button from "../button/button.component";
-//import { UserContext } from "../../context/user.context";
 
-import "./sign-up-form.styles.scss"
+import "./sign-up-form.styles.scss";
 
 const defaultFormFields = {
   displayName: "",
   email: "",
   password: "",
   confirmPassword: "",
+  photoURL: "https://firebasestorage.googleapis.com/v0/b/resale-db.appspot.com/o/images%2FPngItem_1503945.png?alt=media&token=0d33f901-39f1-4c6c-b729-c8c89f31a766",
+  gender: ""
 };
 
 const SignUpForm = () => {
-  //const {setCurrentUser} = useContext(UserContext);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { displayName, email, password, confirmPassword } = formFields;
+  const { displayName, email, password, confirmPassword, gender, photoURL } = formFields;
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -30,7 +30,16 @@ const SignUpForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
+    
   };
+     
+
+    
+
+    
+      
+
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,10 +47,10 @@ const SignUpForm = () => {
       alert("Password do not match");
       return;
     }
-
+    
     try {
       const { user } = await getAuthWithEmailAndPassword(email, password);
-      await createUserDocumentFromAuth(user, { displayName: displayName });
+      await createUserDocumentFromAuth(user, {displayName: displayName, photoURL: photoURL, gender: gender} );
       //setCurrentUser(user);
 
       resetFormFields();
@@ -53,13 +62,24 @@ const SignUpForm = () => {
   };
 
   return (
-    
     <div className="sign-up-container">
-      <h2>Don't  have an account?</h2>
+      <h2>Don't have an account?</h2>
       <span>Sign Up with your email and password</span>
       <form onSubmit={handleSubmit}>
+        <div className="gender-input">
+          <span>Gender:</span>
+          <label>
+            <input type="radio" value="women" name = "gender" checked = {gender === "women"} onChange = {handleChange} />
+              women
+          </label>
+          <label>
+            <input type="radio" value="men" name = "gender" checked = {gender === "men"} onChange = {handleChange} />
+            men
+          </label>
+        </div>
+                        
         <FormInput
-          label = "Display Name"
+          label="Display Name"
           required
           type="text"
           onChange={handleChange}
@@ -67,9 +87,8 @@ const SignUpForm = () => {
           value={displayName}
         />
 
-        
         <FormInput
-          label = "Email"
+          label="Email"
           required
           type="email"
           onChange={handleChange}
@@ -78,7 +97,7 @@ const SignUpForm = () => {
         />
 
         <FormInput
-          label = "Password"
+          label="Password"
           required
           type="password"
           onChange={handleChange}
@@ -87,14 +106,14 @@ const SignUpForm = () => {
         />
 
         <FormInput
-          label = "Confirm Password"
+          label="Confirm Password"
           required
           type="password"
           onChange={handleChange}
           name="confirmPassword"
           value={confirmPassword}
         />
-        <Button type="submit" >Sign Up</Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );

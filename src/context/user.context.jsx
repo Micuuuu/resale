@@ -16,7 +16,6 @@ export const USER_ACTION_TYPES = {
 const userReducer = (state, action) =>
 {
     const {type, payload} = action;
-    console.log(state)
     switch(type){
         case USER_ACTION_TYPES.SET_CURRENT_USER:
             return {
@@ -36,7 +35,6 @@ export const UserProvider = ({children}) =>{
     const [{currentUser}, dispatch] = useReducer(userReducer, INITIAL_STATE)  // USE REDUCER primeste functia noastra Reduce si valoarea initiala a lui State
     // iar dupa rulare primim state-ul si dispatch
     //dispatcg function -  de fiecare data cand vrem ca UserReducer-ul nostru sa primeasca o actiune trebuie sa apelam aceasta functie
-    console.log(currentUser)
     
    const setCurrentUser = (user) => {
        dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER,user)) 
