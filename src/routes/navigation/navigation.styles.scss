@@ -1,20 +1,11 @@
-.nav{
-    padding: 15px 20px 10px 20px;
-    cursor: pointer;
+.profile-icon {
+    height: 24px;
+    width: 24px;
 }
-
-.profile-icon-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding:0;
-    .profile-icon{
-    height: 30px;
-    width: 30px;
-    }
+.profile-icon-container {
+    position: relative;
+    z-index: 1001;
 }
-
-
 .image{
     width: 120.4px;
     height: 86px;

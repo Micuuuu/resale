@@ -49,17 +49,14 @@ const Navigation = () => {
         <LogoContainer to="/">
           <img className="image" src={img} />
         </LogoContainer>
+
         <NavLinksContainer2>
-          {currentUser && (
-            <div className="nav">
-              <div className="profile-icon-container ">
-                <ProfileIcon className="profile-icon" />
-              </div>
-            </div>
-          )}
+          <div className="ProfileIconContainer">
+            {currentUser && <ProfileIcon className="profile-icon" />}
+            {isProfileDropdownOpen && <ProfileDropdown />}
+          </div>
           <CartIcon className="nav-link" />
         </NavLinksContainer2>
-        {isProfileDropdownOpen && <ProfileDropdown />}
         {isCartOpen && <CartDropdown />}
         {showPopup && <SigninPopup setShowPopup={setShowPopup} />}
       </NavigationContainer>

@@ -30,6 +30,7 @@ export const NavLinksContainer2 = styled.div`
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      position: relative;
 `
 export const NavLink = styled(Link)`
         padding: 10px 15px;

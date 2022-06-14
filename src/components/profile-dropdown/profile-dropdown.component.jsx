@@ -28,57 +28,44 @@ const ProfileDropdown = () => {
   };
 
   const onClickHandler = (e) => {
-    
     dispatch(setIsProfileDropdownOpen(false));
   };
-
+  const handleClosingProfileDropdown = (e) => {
+    if (e.target.id === "profile-wrapper") {
+      dispatch(setIsProfileDropdownOpen(!isProfileDropdownOpen));
+    }
+  };
   return (
-    <div className="profile-dropdown-container">
-      {/* <Link
-        to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`}
-        onClick={onClickHandler}
-        className="profile-container"
-      >
-        <img
-          src={userDataMap[currentUser.email].photoURL}
-          alt="Avatar"
-          className="avatar"
-        />
-        <span className="avatar-name">{`${
-          userDataMap[currentUser.email].displayName
-        }`}</span>
-      </Link>
+    <div className="profile-dropdown-container-wrapper" id="profile-wrapper" onClick={(e) => handleClosingProfileDropdown(e)}>
+      <div className="profile-dropdown-container">
+        {currentUser && (
+          <>
+            <Link to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`} onClick={onClickHandler} className="profile-container">
+              <img src={userDataMap[currentUser.email].photoURL} alt="Avatar" className="avatar" />
+              <span className="avatar-name">{`${userDataMap[currentUser.email].displayName}`}</span>
+            </Link>
 
-      <div className="profile-dropdown-menu">
-        <Link
-          to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`}
-          className="profile-link-container"
-          onClick={onClickHandler}
-        >
-          <Dressing className="sign" />
-          <p className="text"> MyDressing </p>
-        </Link>
+            <div className="profile-dropdown-menu">
+              <Link to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`} className="profile-link-container" onClick={onClickHandler}>
+                <Dressing className="sign" />
+                <p className="text"> MyDressing </p>
+              </Link>
 
-        <Link
-          to={`/my-profile/${userDataMap[currentUser.email].uid}/settings`}
-          className="profile-link-container"
-          onClick={onClickHandler}
-        >
-          <Settings className="sign" />
-          <p className="text"> Settings </p>
+              <Link to={`/my-profile/${userDataMap[currentUser.email].uid}/settings`} className="profile-link-container" onClick={onClickHandler}>
+                <Settings className="sign" />
+                <p className="text"> Settings </p>
+              </Link>
+            </div>
+          </>
+        )}
+
+        <Link to="/" onClick={SignOutToggle} className="profile-signout-link-container">
+          <button className="signout-button">
+            <SignOut className="signout-sign" />
+            <p className="signout-text">SignOut</p>
+          </button>
         </Link>
       </div>
- */}
-      <Link
-        to="/"
-        onClick={SignOutToggle}
-        className="profile-signout-link-container"
-      >
-        <button className="signout-button">
-          <SignOut className="signout-sign" />
-          <p className="signout-text">SignOut</p>
-        </button>
-      </Link>
     </div>
   );
 };

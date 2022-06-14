@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getStorage} from "firebase/storage";
+import { getStorage } from "firebase/storage";
 
 import {
   getAuth,
@@ -23,9 +23,9 @@ import {
   updateDoc,
   arrayUnion,
   increment,
-  arrayRemove
+  arrayRemove,
+  onSnapshot,
 } from "firebase/firestore";
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -52,10 +52,7 @@ export const db = getFirestore();
 
 export const storage = getStorage();
 
-export const addCollectionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db); //!TRANZACTII
   objectsToAdd.forEach((element) => {
@@ -73,8 +70,7 @@ export const getCategoriesAndDocuments = async () => {
   const querySnapshot = await getDocs(q);
 
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
-  
-  
+
   //din curs
   // .reduce((acc, docSnapshot) =>{
   //   const {title, items} = docSnapshot.data()
@@ -100,21 +96,21 @@ export const getUserData = async () => {
 };
 export const createUserDocumentFromAuth = async (userAuth, aditionalData) => {
   const userDocRef = doc(db, "users", userAuth.uid);
-  const uid = userAuth.uid
+  const uid = userAuth.uid;
   const userSnapshot = await getDoc(userDocRef);
 
   //check if user data exist
   if (!userSnapshot.exists()) {
-    
     const { displayName, email, photoURL } = userAuth;
     const createdAt = new Date();
-  try {
+    try {
       await setDoc(userDocRef, {
         uid,
         displayName,
         email,
         createdAt,
-        photoURL: "https://firebasestorage.googleapis.com/v0/b/resale-db.appspot.com/o/images%2FPngItem_1503945.png?alt=media&token=0d33f901-39f1-4c6c-b729-c8c89f31a766",
+        photoURL:
+          "https://firebasestorage.googleapis.com/v0/b/resale-db.appspot.com/o/images%2FPngItem_1503945.png?alt=media&token=0d33f901-39f1-4c6c-b729-c8c89f31a766",
         ...aditionalData,
         shippingAddress: {
           name: "",
@@ -145,84 +141,83 @@ export const createUserDocumentFromAuth = async (userAuth, aditionalData) => {
 export const updateUserDocument = async (userAuth, aditionalData, name) => {
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  if(name === "shippingAddress")
-  {
-        try {
-        await updateDoc(userDocRef, {shippingAddress:aditionalData});
-      } catch (err) {
-        console.log("error creating the user", err.message);
-      }
-  }
-  if( name === "photoURL")
-  {
+  if (name === "shippingAddress") {
     try {
-      await updateDoc(userDocRef, {photoURL:aditionalData});
+      await updateDoc(userDocRef, { shippingAddress: aditionalData });
+    } catch (err) {
+      console.log("error creating the user", err.message);
+    }
+  }
+  if (name === "photoURL") {
+    try {
+      await updateDoc(userDocRef, { photoURL: aditionalData });
     } catch (err) {
       console.log("ERROR ADDING PROFILE image", err.message);
     }
   }
- 
-  
-  
-}
-
+};
 
 export const updateUserFollowersCount = async (userAuth) => {
   const userDocRef = doc(db, "users", userAuth);
-
-  
-    try {
-      await updateDoc(userDocRef, {followersCount:increment(1)});
-    } catch (err) {
-      console.log("error creating the user", err.message);
-    }
-  
-  
-}
+  try {
+    const response = await updateDoc(userDocRef, { followersCount: increment(1) });
+    console.log(response);
+  } catch (err) {
+    console.log("error", err.message);
+  }
+};
 
 export const updateUserFollowingList = async (userAuth, aditionalData) => {
   const userDocRef = doc(db, "users", userAuth);
 
   try {
-    await updateDoc(userDocRef, "following" , arrayUnion(aditionalData));
+    const response = await updateDoc(userDocRef, "following", arrayUnion(aditionalData));
+    console.log(response);
   } catch (err) {
-    console.log("error creating the user", err.message);
+    console.log("error", err.message);
   }
-}
-
+};
 
 export const createItemsDocument = async (userDoc, aditionalData) => {
-  const {price,gender,title, category, material, size, color, brand, itemDescription, url,item_id} = aditionalData;
-  
-  const {uid, email} =userDoc;
-   const DocRef = doc(db, "items", category);
-   const createdAt = new Date();
-  
-    try {
-    await updateDoc(DocRef,  {items: arrayUnion({createdAt:createdAt, id:item_id, price:price, owner:{uid,email}, gender: gender, name: title, material: material, size: size, 
-    color: color, brand: brand, itemDescription: itemDescription, imageUrl: url,category: category})});
-  } catch (err) {
-    console.log("error creating the user", err.message);
-  }
+  const { price, gender, title, category, material, size, color, brand, itemDescription, url, item_id } = aditionalData;
 
-  
-}
+  const { uid, email } = userDoc;
+  const DocRef = doc(db, "items", category);
+  const createdAt = new Date();
 
-
-export const updateItemsDocument = async (category,updates, defaults) => {
-  const userDocRef = doc(db, "items", category);
-  const {price,gender,title,  material, size, color, brand, itemDescription, url,item_id, owner, createdAt} = updates;
   try {
-    await updateDoc(userDocRef,  {items: arrayRemove(defaults)});
-    await updateDoc(userDocRef,  {items: arrayUnion(updates)});
-
+    await updateDoc(DocRef, {
+      items: arrayUnion({
+        createdAt: createdAt,
+        id: item_id,
+        price: price,
+        owner: { uid, email },
+        gender: gender,
+        name: title,
+        material: material,
+        size: size,
+        color: color,
+        brand: brand,
+        itemDescription: itemDescription,
+        imageUrl: url,
+        category: category,
+      }),
+    });
   } catch (err) {
     console.log("error creating the user", err.message);
   }
+};
 
- 
- 
-}
+export const updateItemsDocument = async (category, updates, defaults) => {
+  const userDocRef = doc(db, "items", category);
+  const { price, gender, title, material, size, color, brand, itemDescription, url, item_id, owner, createdAt } = updates;
+  try {
+    await updateDoc(userDocRef, { items: arrayRemove(defaults) });
+    await updateDoc(userDocRef, { items: arrayUnion(updates) });
+  } catch (err) {
+    console.log("error creating the user", err.message);
+  }
+};
 export const getAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   const response = createUserWithEmailAndPassword(auth, email, password);
@@ -240,6 +235,5 @@ export const SignOutUser = async () => signOut(auth);
 export const onAuthStateChangedListener = (callback) => {
   onAuthStateChanged(auth, callback);
 };
-
 
 getUserData();

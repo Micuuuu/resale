@@ -26,7 +26,6 @@ const Shop = () => {
             <Route path = ':category/:id/details' element = {<ProductDetails />} />
             <Route path = ':category/:id/edit' element = {<ProductEditForm />} />
 
-            
         </Routes>
         );
 //     <Fragment>
