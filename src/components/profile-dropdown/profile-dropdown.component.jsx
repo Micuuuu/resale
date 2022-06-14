@@ -15,6 +15,7 @@ import { selectIsProfileDropdownOpen } from "../../store/profile/profile.selecto
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectUserDataMap } from "../../store/user-data/user-data.selector";
 import "./profile-dropdown.styles.scss";
+
 const ProfileDropdown = () => {
   const dispatch = useDispatch();
   const isProfileDropdownOpen = useSelector(selectIsProfileDropdownOpen);
@@ -33,7 +34,7 @@ const ProfileDropdown = () => {
 
   return (
     <div className="profile-dropdown-container">
-      <Link
+      {/* <Link
         to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`}
         onClick={onClickHandler}
         className="profile-container"
@@ -67,7 +68,7 @@ const ProfileDropdown = () => {
           <p className="text"> Settings </p>
         </Link>
       </div>
-
+ */}
       <Link
         to="/"
         onClick={SignOutToggle}

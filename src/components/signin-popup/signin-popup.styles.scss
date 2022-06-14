@@ -1,0 +1,58 @@
+.SigninPopupContainer {
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
+  animation: fade;
+  animation-duration: 0.3s;
+  .SigninPopup {
+    position: relative;
+    z-index: 1001;
+    padding: 24px;
+    width: 550px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .SigninPopupTitle {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .SigninPopupDescription {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .SigninPopupAction {
+      padding: 6px 12px;
+      border: 2px solid black;
+      border-radius: 5px;
+      background-color: none;
+      outline: none;
+      font-weight: 600;
+      transition: all 0.3s ease-out;
+      &:hover {
+        box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
+      }
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
