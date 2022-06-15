@@ -1,9 +1,6 @@
 import React from "react";
-import { ReactComponent as Avatar } from "../../assets/avatar.svg";
-import { ReactComponent as Profile } from "../../assets/profile.svg";
 import { ReactComponent as SignOut } from "../../assets/sign-out.svg";
 import { ReactComponent as Dressing } from "../../assets/dressing-shirt.svg";
-import { ReactComponent as Heart } from "../../assets/heart.svg";
 import { ReactComponent as Settings } from "../../assets/settings.svg";
 
 import { Link } from "react-router-dom";

@@ -3,9 +3,7 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import CurrencyInput from "react-currency-input-field";
 
-import { useSelector } from "react-redux";
-import { selectUserDataMap } from "../../../store/user-data/user-data.selector";
-import { selectCurrentUser } from "../../../store/user/user.selector";
+
 
 import { updateUserDocument } from "../../../utils/firebase/firebase.utils";
 import { createItemsDocument } from "../../../utils/firebase/firebase.utils";
@@ -14,7 +12,7 @@ import { storage } from "../../../utils/firebase/firebase.utils";
 
 import Button from "../../button/button.component";
 
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {  ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const itemDefaultFormFields = {
   title: "",
@@ -52,13 +50,13 @@ const Form = ({ currentUser, userDataMap }) => {
   //item information
 
   const [itemFormFields, setItemFormField] = useState(itemDefaultFormFields);
-  const { gender, title, category, material, size, color, brand, itemDescription, image, url } = itemFormFields;
+  const { gender, title,  size,  brand, itemDescription, image, url } = itemFormFields;
 
   const [progress, setProgress] = useState(0);
 
   const itemHandleChange = (event) => {
     console.log(event);
-    const { name, value, files } = event.target;
+    const { name, value} = event.target;
     setItemFormField({ ...itemFormFields, [name]: value });
     if (event.target.files) {
       setItemFormField({ ...itemFormFields, [name]: event.target.files[0] });

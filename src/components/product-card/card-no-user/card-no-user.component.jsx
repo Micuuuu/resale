@@ -5,8 +5,8 @@ import "./card-no-user.styles.scss"
 
 
 const CardNoUser = ({ products, title, currentUser, userDataMap }) => {
-  const { name, price, imageUrl, owner } = products;
-  const { email } = owner;
+  const { name, price, imageUrl } = products;
+  const { email } = products.owner;
 
   const [showPopup, setShowPopup] = useState(false);
   const [pageName, setPageName] = useState("");

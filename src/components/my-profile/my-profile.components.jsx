@@ -26,14 +26,14 @@ const MyProfileInfo = ({ page }) => {
     console.log(newArray);
     setProducts(newArray);
 
-    const numAscending = [...newArray].sort(
-      (a, b) => a.createdAt.seconds - b.createdAt.seconds
-    );
+    // const numAscending = [...newArray].sort(
+    //   (a, b) => a.createdAt.seconds - b.createdAt.seconds
+    // );
     // console.log(numAscending);
   }, [id, allProducts]);
   const userDataMapById = useSelector(selectUserDataMapById);
   return currentUser ? (
-    currentUser.uid == id ? (
+    currentUser.uid === id ? (
       <div className="profile-info-container">
         <img
           className="profile-info-image"

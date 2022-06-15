@@ -15,7 +15,6 @@ import { selectAllProducts } from "../../store/categories/category.selector";
 import "./profile-page-info.styles.scss";
 const ProfileInfo = ({ page }) => {
   const { id } = useParams();
-  const currentUser = useSelector(selectCurrentUser);
   const allProducts = useSelector(selectAllProducts);
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -24,7 +23,7 @@ const ProfileInfo = ({ page }) => {
     } )
     setProducts(newArray)
 
-    const numAscending = [...newArray].sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
+    // const numAscending = [...newArray].sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
   }, [id, allProducts]);
   const userDataMapById = useSelector(selectUserDataMapById);
   return (

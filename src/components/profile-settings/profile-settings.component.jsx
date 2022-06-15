@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import FolderIcon from "./assets/folder_icon_transparent.png";
 import CloseIcon from "./assets/CloseIcon.svg";
 import Button from "../button/button.component";
-import FormInput from "../form-input/form-input.component";
 import ShippingForm from "../shipping-form/shipping-form.component";
 import { useSelector } from "react-redux";
 import { selectUserDataMapById } from "../../store/user-data/user-data.selector";
@@ -67,6 +66,7 @@ const ProfileSettings = ({id}) => {
           case "running":
             console.log("Upload is running");
             break;
+          
         }
       },
       (error) => {
