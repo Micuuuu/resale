@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { ReactComponent as Profile } from "../../assets/profile.svg";
 
 import { Outlet } from "react-router-dom";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
-import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import img from "../../assets/logo.png";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { SignOutUser } from "../../utils/firebase/firebase.utils";
 //Cart Redux
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
 //Profile icon  & redux
@@ -19,7 +16,7 @@ import ProfileDropdown from "../../components/profile-dropdown/profile-dropdown.
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.components";
 import SigninPopup from "../../components/signin-popup/signin-popup.component";
-import { NavigationContainer, NavLink, NavLinksContainer1, NavLinksContainer2, NavLinkProfile, LogoContainer } from "./navigation.styles.js";
+import { NavigationContainer, NavLink, NavLinksContainer1, NavLinksContainer2, LogoContainer } from "./navigation.styles.js";
 import "./navigation.styles.scss";
 
 const Navigation = () => {
@@ -27,9 +24,12 @@ const Navigation = () => {
   const isCartOpen = useSelector(selectIsCartOpen);
   const isProfileDropdownOpen = useSelector(selectIsProfileDropdownOpen);
   const [showPopup, setShowPopup] = useState(false);
-
+  const [pageName, setPageName] = useState("");
+  
   const openSigninPopup = (e) => {
     if (!currentUser) {
+      console.log(e.target.id);
+      setPageName(e.target.id)
       e.preventDefault();
       setShowPopup(true);
     }
@@ -39,15 +39,15 @@ const Navigation = () => {
     <Fragment>
       <NavigationContainer>
         <NavLinksContainer1>
-          <NavLink to="/shop">SHOP</NavLink>
-          <NavLink onClick={(e) => openSigninPopup(e)} to="/sell">
+          <NavLink id="Shop"  to="/shop">SHOP</NavLink>
+          <NavLink id="Sell" onClick={(e) => openSigninPopup(e)} to="/sell">
             SELL
           </NavLink>
           <NavLink to="/auth">SIGN IN</NavLink>
           {currentUser && <NavLink to="/sell">FOR YOU</NavLink>}
         </NavLinksContainer1>
         <LogoContainer to="/">
-          <img className="image" src={img} />
+          <img className="image" src={img} alt = "logo" />
         </LogoContainer>
 
         <NavLinksContainer2>
@@ -55,10 +55,10 @@ const Navigation = () => {
             {currentUser && <ProfileIcon className="profile-icon" />}
             {isProfileDropdownOpen && <ProfileDropdown />}
           </div>
-          <CartIcon className="nav-link" />
+          <CartIcon className="nav-link" currentUser = {currentUser}/>
         </NavLinksContainer2>
         {isCartOpen && <CartDropdown />}
-        {showPopup && <SigninPopup setShowPopup={setShowPopup} />}
+        {showPopup && <SigninPopup setShowPopup={setShowPopup} pageName = {pageName} />}
       </NavigationContainer>
       <Outlet />
     </Fragment>

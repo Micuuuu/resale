@@ -27,10 +27,11 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
   }, [id, productsIdMap]);
   useEffect(() => {
     setCurrentUserFollowin(userDataMap[currentUser.email].following);
-  }, [userFollowersDataMap]);
+    setIsFollowed(currentUserFollowin.includes(userDataMap[email].uid))
+  }, [userFollowersDataMap,currentUser.email,currentUserFollowin,userDataMap, email]);
 
   const addProductToCart = () => {
-    dispatch(addItemToCart(cartItems, productsIdMap[id]));
+    dispatch(addItemToCart(cartItems, productsIdMap[id],email, userDataMap));
   };
 
   const fireBaseTime = new Date(createdAt.seconds * 1000 + createdAt.nanoseconds / 1000000);
@@ -47,7 +48,7 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
   };
 
   const date = fireBaseTime.toDateString();
-  const atTime = fireBaseTime.toLocaleTimeString();
+  // const atTime = fireBaseTime.toLocaleTimeString();
   return (
     <div className="product-details-container">
       <div className="images-container">
@@ -63,7 +64,7 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
           <div className="size">
             <h3>Size:</h3>
             <div className="container">
-              <span>M</span>
+              <span>{size}</span>
             </div>
           </div>
           <div className="favorites">add to favorite</div>
@@ -108,14 +109,8 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
         </div>
       </div>
 
-      <div>
-        <h2>Seller info</h2>
-        <div className="seller-info-container">
-          <div className="seller-info-image">
-            <img src={userDataMap[email].photoURL} alt="" />
-          </div>
-          <div className="seller-info-details">
-            <h3>{userDataMap[email].displayName}</h3>
+      
+       
             {currentUser.email === email ? (
               <div>
                 <span>That product is yours</span>
@@ -128,14 +123,24 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
               </div>
             ) : (
               <div>
+          <h2>Seller info</h2>
+              <div className="seller-info-container">
+              <div className="seller-info-image">
+                <img src={userDataMap[email].photoURL} alt="" />
+              </div>
+              <div className="seller-info-details">
+                <h3>{userDataMap[email].displayName}</h3>
+              <div>
                 <div className="followButton">{!isFollowed ? <span onClick={followHandler}>follow</span> : <span>followed</span>}</div>
 
                 <Link to={`/profile/${userDataMap[email].uid}/dressing`}>See entire dressing</Link>
               </div>
-            )}
+              </div>
           </div>
-        </div>
-      </div>
+          </div>
+            )}
+         
+      
 
       <div className="product-button-details">
         <Button type="button" buttonType="cart" onClick={addProductToCart}>

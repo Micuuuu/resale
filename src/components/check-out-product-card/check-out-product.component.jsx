@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
-  addItemToCart,
-  removeItemFromCart,
+  
   clearItemFromCart,
 } from "../../store/cart/cart.action";
 import { selectCartItems } from "../../store/cart/cart.selector";
@@ -10,12 +9,12 @@ import {ReactComponent as RemoveClosedIcon} from '../../assets/closed-trash.svg'
 import {ReactComponent as RemoveOpenIcon} from '../../assets/open-trash.svg';
 
 const CheckOutProduct = ({items }) => {
-  const { name, imageUrl, price, quantity } = items;
+  const { name, imageUrl, price } = items;
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   return (
     <div className="checkout-item-container">
-      <div clasName = "checkout-item-image-container" >
+      <div className = "checkout-item-image-container" >
       <img className="checkout-item-image" src={imageUrl} alt={`${name}`} />
       </div>
       

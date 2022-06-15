@@ -1,42 +1,31 @@
 import React from 'react'
+import { useState } from "react";
+
 import {ReactComponent as Sneakers} from '../../assets/home/Vector.svg';
 import {ReactComponent as Hat} from '../../assets/home/hat.svg';
 import {ReactComponent as Jacket} from '../../assets/home/jacket.svg';
 import {ReactComponent as Bag} from '../../assets/home/bag.svg';
 
-import CategoryItem from '../category-item/category-item.component'
 import { Link } from 'react-router-dom';
-
+import { selectCurrentUser } from "../../store/user/user.selector";
+import { useSelector } from "react-redux";
+import SigninPopup from '../signin-popup/signin-popup.component';
 
 import './directory-menu.styles.scss'
 const DirectoryMenu = () => {
-    const categories = [
-        {
-          "id": 1,
-          "title": "hats",
-          "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
-        },
-        {
-          "id": 2,
-          "title": "jackets",
-          "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
-        },
-        {
-          "id": 3,
-          "title": "sneakers",
-          "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
-        },
-        {
-          "id": 4,
-          "title": "women",
-          "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
-        },
-        {
-          "id": 5,
-          "title": "men",
-          "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
-        }
-      ]
+  const currentUser = useSelector(selectCurrentUser);
+  const [showPopup, setShowPopup] = useState(false);
+  const [pageName, setPageName] = useState("");
+   
+  const openSigninPopup = (e) => {
+    if (!currentUser) {
+      console.log(e.target.id);
+      setPageName(e.target.id)
+      e.preventDefault();
+      setShowPopup(true);
+    }
+  };
+
     return (
       <div>
         <section className='home-section promo-container'>
@@ -50,10 +39,10 @@ const DirectoryMenu = () => {
             </div>
 
             <div className='promo-copy-cta'>
-                <Link to="/shop" className='promo-copy-cta-button promo-copy-cta-button--right'>
+                <Link id="Shop" onClick={(e) => openSigninPopup(e)} to="/shop" className='promo-copy-cta-button promo-copy-cta-button--right'>
                   <div>SHOP</div>
                 </Link>
-                <Link to="/sell" className='promo-copy-cta-button promo-copy-cta-button--left'>
+                <Link to="/sell"  id="Sell" onClick={(e) => openSigninPopup(e)} className='promo-copy-cta-button promo-copy-cta-button--left'>
                   <div>SELL</div>
                 </Link>
             </div>
@@ -75,15 +64,8 @@ const DirectoryMenu = () => {
             <Bag className='svg' />
           </div>
         </section>
-        <div className='categories-container'>
-        {
-           categories.map((category)=>(          
-              
-            <CategoryItem key = {category.id} category = {category}/>
-            ))
-         
-        }     
-        </div>
+       
+        {showPopup && <SigninPopup setShowPopup={setShowPopup} pageName = {pageName} />}
 
       </div>
     )

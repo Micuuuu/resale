@@ -130,8 +130,7 @@ const MyProfileInfo = ({ page }) => {
           })()}
         </div>
 
-
-          {/* // afisarea pentru fiecare pagina */}
+        {/* // afisarea pentru fiecare pagina */}
         {page === "dressing" ? (
           <div className="dressing-items-container ">
             {products &&
@@ -144,10 +143,9 @@ const MyProfileInfo = ({ page }) => {
               ))}
           </div>
         ) : (
-         
-         <ProfileSettings id = {id} />
+          <ProfileSettings id={id} />
         )}
-         {/* <div>No items sold yet</div> */}
+        {/* <div>No items sold yet</div> */}
       </div>
     ) : (
       <h2>That s not your profile</h2>

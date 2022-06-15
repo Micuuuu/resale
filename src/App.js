@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 import { createUserDocumentFromAuth } from "./utils/firebase/firebase.utils";
 import { getUserData } from "./utils/firebase/firebase.utils";
@@ -12,16 +12,13 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import CheckOutPage from "./routes/checkOut/checkOut.component";
 import SellForm from "./components/sell-form/sell-form.component";
-import Profile from "./routes/profile-page/profile.component";
 import ProfileInfo from "./components/profile-page-info/profile-page-info";
 import MyProfileInfo from "./components/my-profile/my-profile.components";
 import { setCurrentUser } from "./store/user/user.action";
 //User firebase data
 import { setUserData } from "./store/user-data/user-data.action";
-import { selectUserDataMap } from "./store/user-data/user-data.selector";
 
 function App() {
-  const userData = useSelector(selectUserDataMap);
 
   const dispatch = useDispatch();
 
@@ -31,15 +28,16 @@ function App() {
 
       dispatch(setUserData(userDataArray));
     };
-    getUserDataMap();
+    return getUserDataMap();
   }, [dispatch]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
-        dispatch(setCurrentUser(user));
       }
+      dispatch(setCurrentUser(user));
+
     });
     return unsubscribe;
   }, [dispatch]);
