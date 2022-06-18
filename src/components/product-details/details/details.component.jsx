@@ -6,7 +6,7 @@ import Button from "../../button/button.component";
 import { Link } from "react-router-dom";
 
 import { addItemToCart } from "../../../store/cart/cart.action";
-
+import { Footer } from "antd/lib/layout/layout";
 import { updateUserFollowersCount } from "../../../utils/firebase/firebase.utils";
 import { updateUserFollowingList } from "../../../utils/firebase/firebase.utils";
 
@@ -112,7 +112,7 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
       
        
             {currentUser.email === email ? (
-              <div>
+              <div className="seller">
                 <span>That product is yours</span>
 
                 <Link to={`/shop/${category}/${id}/edit`}>
@@ -122,8 +122,8 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
                 </Link>
               </div>
             ) : (
-              <div>
-          <h2>Seller info</h2>
+              <div className="seller">
+              <h2>Seller info</h2>
               <div className="seller-info-container">
               <div className="seller-info-image">
                 <img src={userDataMap[email].photoURL} alt="" />
@@ -143,11 +143,21 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
       
 
       <div className="product-button-details">
-        <Button type="button" buttonType="cart" onClick={addProductToCart}>
+      {currentUser.email === email ? ( <Button type="button" buttonType="disabled"  onClick={addProductToCart}>
+          Disabled
+        </Button> ) : (
+         
+
+        <Button type="button" buttonType="cart"  onClick={addProductToCart}>
           Add to Cart
         </Button>
+        )
+       
+        }
       </div>
+     
     </div>
+    
   );
 };
 

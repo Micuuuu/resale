@@ -9,7 +9,7 @@ import {ReactComponent as RemoveClosedIcon} from '../../assets/closed-trash.svg'
 import {ReactComponent as RemoveOpenIcon} from '../../assets/open-trash.svg';
 
 const CheckOutProduct = ({items }) => {
-  const { name, imageUrl, price } = items;
+  const { name, imageUrl, price,size } = items;
   const cartItems = useSelector(selectCartItems);
   const dispatch = useDispatch();
   return (
@@ -21,7 +21,7 @@ const CheckOutProduct = ({items }) => {
       <span className="name">{name}</span>
       <div className="quantity">
        
-        <span className="value">M</span>
+        <span className="value">{size}</span>
         
       </div>
       <span className="price">{`$${price}`}</span>

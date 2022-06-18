@@ -33,9 +33,10 @@ const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+
       await SignInAuthWithEmailAndPassword(email, password);
       resetFormFields();
-    } catch (error) {
+    }catch (error) {
       if (error.code === "auth/wrong-password")
         alert("the password is incorect");
       else if (error.code === "auth/user-not-found")
@@ -43,6 +44,7 @@ const SignInForm = () => {
 
       console.log(error);
     }
+  
   };
 
   return (

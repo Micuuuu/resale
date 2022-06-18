@@ -1,11 +1,12 @@
 body {
-  margin: 0;
+  margin:0;
   padding: 1.2rem  2.4rem;
   font-family: 'Open Sans',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 0;
+  
 }
 
 code {
@@ -21,3 +22,4 @@ a {
 *{
   box-sizing: border-box;
 }
+

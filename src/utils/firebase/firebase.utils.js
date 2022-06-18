@@ -124,6 +124,8 @@ export const createUserDocumentFromAuth = async (userAuth, aditionalData) => {
         followersCount: 0,
         following: [],
         soldItemsCount: 0,
+        soldItems: [],
+        orderList: [],
       });
     } catch (err) {
       console.log("error creating the user", err.message);
@@ -167,11 +169,43 @@ export const updateUserFollowersCount = async (userAuth) => {
   }
 };
 
+export const updateUserSoldItemsCount = async (userAuth) => {
+  const userDocRef = doc(db, "users", userAuth);
+  try {
+    const response = await updateDoc(userDocRef, { soldItemsCount: increment(1) });
+    console.log(response);
+  } catch (err) {
+    console.log("error", err.message);
+  }
+};
+
 export const updateUserFollowingList = async (userAuth, aditionalData) => {
   const userDocRef = doc(db, "users", userAuth);
 
   try {
     const response = await updateDoc(userDocRef, "following", arrayUnion(aditionalData));
+    console.log(response);
+  } catch (err) {
+    console.log("error", err.message);
+  }
+};
+
+export const updateUserSoldItemList = async (userAuth, aditionalData) => {
+  const userDocRef = doc(db, "users", userAuth);
+
+  try {
+    const response = await updateDoc(userDocRef, "soldItems", arrayUnion(aditionalData));
+    console.log(response);
+  } catch (err) {
+    console.log("error", err.message);
+  }
+};
+
+export const updateUserOrderList = async (userAuth, aditionalData) => {
+  const userDocRef = doc(db, "users", userAuth);
+
+  try {
+    const response = await updateDoc(userDocRef, "orderList", arrayUnion(aditionalData));
     console.log(response);
   } catch (err) {
     console.log("error", err.message);
@@ -214,6 +248,15 @@ export const updateItemsDocument = async (category, updates, defaults) => {
   try {
     await updateDoc(userDocRef, { items: arrayRemove(defaults) });
     await updateDoc(userDocRef, { items: arrayUnion(updates) });
+  } catch (err) {
+    console.log("error creating the user", err.message);
+  }
+};
+
+export const deleteItemsDocument = async (category, defaults) => {
+  const userDocRef = doc(db, "items", category);
+  try {
+    await updateDoc(userDocRef, { items: arrayRemove(defaults) });
   } catch (err) {
     console.log("error creating the user", err.message);
   }

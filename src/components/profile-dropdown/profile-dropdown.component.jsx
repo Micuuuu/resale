@@ -35,7 +35,7 @@ const ProfileDropdown = () => {
   return (
     <div className="profile-dropdown-container-wrapper" id="profile-wrapper" onClick={(e) => handleClosingProfileDropdown(e)}>
       <div className="profile-dropdown-container">
-        {currentUser && (
+      {currentUser && (
           <>
             <Link to={`/my-profile/${userDataMap[currentUser.email].uid}/dressing`} onClick={onClickHandler} className="profile-container">
               <img src={userDataMap[currentUser.email].photoURL} alt="Avatar" className="avatar" />

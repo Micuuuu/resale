@@ -12,7 +12,8 @@ import { updateUserFollowingList } from "../../../utils/firebase/firebase.utils"
 import "./card-user.styles.scss";
 const CardUser = ({ products, title, currentUser, userDataMap }) => {
   const { name, price, imageUrl, id, owner } = products;
-  const { email } = owner;
+  const { email } = products.owner;
+  console.log(products)
   const userFollowersDataMap = useSelector(selectFollowersData);
 
   const [currentUserFollowin, setCurrentUserFollowin] = useState(

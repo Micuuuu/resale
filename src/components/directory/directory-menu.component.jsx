@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { useSelector } from "react-redux";
 import SigninPopup from '../signin-popup/signin-popup.component';
-
+import Footer from '../footer/footer.component';
 import './directory-menu.styles.scss'
 const DirectoryMenu = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -27,8 +27,8 @@ const DirectoryMenu = () => {
   };
 
     return (
-      <div>
-        <section className='home-section promo-container'>
+      <div className='home-section '>
+        <section className='promo-container'>
           <div className = 'promo-copy'>
             <div className='promo-copy-texts'>
               <h2 className='promo-copy-text promo-copy-heading'>2 WEAR</h2>
@@ -67,6 +67,7 @@ const DirectoryMenu = () => {
        
         {showPopup && <SigninPopup setShowPopup={setShowPopup} pageName = {pageName} />}
 
+       <Footer />
       </div>
     )
 }

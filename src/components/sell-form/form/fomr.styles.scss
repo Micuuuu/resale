@@ -1,24 +1,57 @@
-
-
-.setting-layout{
-    
-    
-    
-
-    .settings-image-upload-container{
-        display: flex;
-        width: 100%;
-        max-width: 1000px;
-    flex-direction: row;
+.sell-container{
+    margin-top: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+   .sell-container-form{
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     background: #fff;
     padding: 20px 100px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     border-radius: 20px;
-    text-align: center;
     margin-top:4rem;
+    margin-bottom:4rem;
 
+    
+   }
+   
+   
+   .dropbtn{
+    display: block;
+    width: 100%;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    -moz-padding-start: calc(0.75rem - 3px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-bottom: 2rem;
+   }
+
+.settings-image-upload-container{
+        display: flex;
+        width: 100%;
+        max-width: 1000px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 4rem;    
     p {
         margin-top: -10px;
         color: #777;
@@ -86,68 +119,30 @@
             }
         }
     }
-
-
-    .settings-address-upload-container{
-        display: flex;
-        width: 100%;
-        max-width: 1000px;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-        padding: 20px 100px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-        border-radius: 20px;
-        text-align: center;
-        margin-top:4rem;
-        margin-bottom:4rem;
-      
-        .settings-address-form {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            
-            .group{
-                margin:0;
-            }
-
-            .address-form-address{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 1.5rem;
-                .group{
-                    width: 80%;
-                }
-            }
-            .address-form-row{
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-around;
-                margin-bottom: 1.5rem;
-
-                
-
-                .group{
-                    margin:0;
-                }
-
-            
-            }
-
-            .address-form-button{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                
-            }
-        }
-    }
+   
 }
 
 
+@media (max-width: 500px){
+   
+    .sell-container-form{
+        max-width: 300px;
+        margin: 1rem 0;
+    }
+    .dropbtn{
+        max-width: 400px;
+    }
+    .form-input{
+        max-width: 400px!important;
+        width: 100%!important;
+    }
 
+    .settings-image-upload-container{
+        flex-direction: column!important;
+    }
 
+   .address-form-address{
+    display: block !important;
+   }
+
+}

@@ -49,6 +49,17 @@
       height: 60px;
   
     }
+
+    &.disabled{
+      background-color: grey;
+      color: white;
+      border: 1px solid white;
+      width: 60%;
+      height: 60px;
+      &:hover{
+        cursor: crosshair;
+      }
+    }
   }
   
   .button-spinner{

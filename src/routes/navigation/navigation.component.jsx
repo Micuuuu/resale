@@ -18,7 +18,11 @@ import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component
 import SigninPopup from "../../components/signin-popup/signin-popup.component";
 import { NavigationContainer, NavLink, NavLinksContainer1, NavLinksContainer2, LogoContainer } from "./navigation.styles.js";
 import "./navigation.styles.scss";
+import { getUserData } from "../../utils/firebase/firebase.utils";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/user-data/user-data.action";
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
@@ -35,6 +39,16 @@ const Navigation = () => {
     }
   };
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getUserDataMap = async () => {
+      const userDataArray = await getUserData();
+      console.log(userDataArray)
+      dispatch(setUserData(userDataArray));
+    };
+    return getUserDataMap();
+  }, [dispatch]);
   return (
     <Fragment>
       <NavigationContainer>
@@ -43,7 +57,7 @@ const Navigation = () => {
           <NavLink id="Sell" onClick={(e) => openSigninPopup(e)} to="/sell">
             SELL
           </NavLink>
-          <NavLink to="/auth">SIGN IN</NavLink>
+          {!currentUser && <NavLink to="/auth">SIGN IN</NavLink>}
           {currentUser && <NavLink to="/sell">FOR YOU</NavLink>}
         </NavLinksContainer1>
         <LogoContainer to="/">

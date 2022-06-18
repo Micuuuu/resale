@@ -2,14 +2,26 @@
     height: 12rem;
     display:flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+
 }
 
 .form-container {
     height: 100px;
-    min-width: 500px;
-
+    width: 100%;
 
    
 }
+
+
+@media (max-width: 550px){
+    .form-container{
+       width: 300px!important;
+    }
+    .card-details{
+        width: 300px!important;
+        margin-bottom: 2rem;
+    }
+}
+   

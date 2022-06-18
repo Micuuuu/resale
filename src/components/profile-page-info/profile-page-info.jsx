@@ -7,15 +7,17 @@ import { ReactComponent as ProfileShirt } from "../../assets/profile-shirt.svg";
 import { Link } from "react-router-dom";
 
 import ProductCard from "../product-card/product-card.component";
+import SoldItem from "../sold-item/sold-item.component";
 
 import { selectUserDataMapById } from "../../store/user-data/user-data.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectAllProducts } from "../../store/categories/category.selector";
-
+import { selectSoldItemsData } from "../../store/user-data/user-data.selector";
 import "./profile-page-info.styles.scss";
 const ProfileInfo = ({ page }) => {
   const { id } = useParams();
   const allProducts = useSelector(selectAllProducts);
+  const currentUser = useSelector(selectCurrentUser);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     var newArray = allProducts.filter((el)=>{
@@ -26,6 +28,8 @@ const ProfileInfo = ({ page }) => {
     // const numAscending = [...newArray].sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
   }, [id, allProducts]);
   const userDataMapById = useSelector(selectUserDataMapById);
+  const userSoldItemsById = useSelector(selectSoldItemsData)
+  console.log(userSoldItemsById[id])
   return (
     
     <div className="profile-info-container">
@@ -75,12 +79,24 @@ const ProfileInfo = ({ page }) => {
         <div className="dressing-items-container">
         {products &&
           products.map((product) => (
-            <ProductCard key={product.id} products={product} title = {product.category} />
+            <ProductCard key={product.id} products={product} title = {product.category} currentUser = {currentUser} />
           ))}
       </div>
       ) : (
-        <div>
-            No items sold yet
+        
+          <div className="dressing-items-container">
+            {
+              userSoldItemsById[id].length > 0 ? (      
+                
+                 userSoldItemsById[id].map((item) => <SoldItem item = {item} />)
+                
+              )
+               : (
+                <div className="dressing-items-container" >
+                  No items sold yet
+                </div>
+              )
+            }
             </div>
       )}
     </div>

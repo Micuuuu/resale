@@ -199,4 +199,30 @@
             margin: 2rem 3rem 2rem 
         }
     }
+
+    .sold-items-container{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center; 
+        background-color: #F5F8FF;
+        width: 100%;
+        height:100%;
+    }
+}
+
+
+@media (max-width:550px) {
+    .page-selector{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .dressing-button{
+        margin:0 !important;
+
+    }
+    .sold-items{
+        margin: 0 0 0 1.5rem!important;
+    }
 }

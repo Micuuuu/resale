@@ -14,6 +14,7 @@ const CheckOutPage = () => {
   const total = useSelector(selectCartTotal);
   return (
     <div className="checkOut-container">
+      <h2>My Cart</h2>
       <div className="table-titles">
         <span className="header-block">Product</span>
         <span className="header-block">Description</span>

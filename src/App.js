@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const getUserDataMap = async () => {
       const userDataArray = await getUserData();
-
+      console.log(userDataArray)
       dispatch(setUserData(userDataArray));
     };
     return getUserDataMap();

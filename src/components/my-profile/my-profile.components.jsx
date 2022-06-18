@@ -11,7 +11,10 @@ import ProductCard from "../product-card/product-card.component";
 import { selectUserDataMapById } from "../../store/user-data/user-data.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectAllProducts } from "../../store/categories/category.selector";
-
+import SoldItem from "../sold-item/sold-item.component";
+import OrderItem from "../order-item/order-item.component";
+import { selectSoldItemsData } from "../../store/user-data/user-data.selector";
+import { selectOrdersData } from "../../store/user-data/user-data.selector";
 import ProfileSettings from "../profile-settings/profile-settings.component";
 import "./my-profile.styles.scss";
 const MyProfileInfo = ({ page }) => {
@@ -19,6 +22,8 @@ const MyProfileInfo = ({ page }) => {
   const currentUser = useSelector(selectCurrentUser);
   const allProducts = useSelector(selectAllProducts);
   const [products, setProducts] = useState([]);
+  const userSoldItemsById = useSelector(selectSoldItemsData);
+  const userOrderItemsById = useSelector(selectOrdersData)
   useEffect(() => {
     var newArray = allProducts.filter((el) => {
       return el.owner.uid === id;
@@ -65,10 +70,11 @@ const MyProfileInfo = ({ page }) => {
           {(() => {
             if (page === "dressing") {
               return (
-                <div className="my-page-selector">
+                
+                  <div className="my-page-selector">
                   <button className="selected-button">Dressing</button>
                   <Link to={`/my-profile/${id}/to-ship`}>
-                    <button className="unselected-button">to Ship</button>
+                    <button className="unselected-button">toShip</button>
                   </Link>
                   <Link to={`/my-profile/${id}/orders`}>
                     <button className="unselected-button">orders</button>
@@ -77,6 +83,10 @@ const MyProfileInfo = ({ page }) => {
                     <button className="unselected-button">settings</button>
                   </Link>
                 </div>
+
+                
+                
+           
               );
             } else if (page === "to-shipp") {
               return (
@@ -84,7 +94,7 @@ const MyProfileInfo = ({ page }) => {
                   <Link to={`/my-profile/${id}/dressing`}>
                     <button className="unselected-button">Dressing</button>
                   </Link>
-                  <button className="selected-button">to Ship</button>
+                  <button className="selected-button">toShip</button>
                   <Link to={`/my-profile/${id}/orders`}>
                     <button className="unselected-button">orders</button>
                   </Link>
@@ -100,7 +110,7 @@ const MyProfileInfo = ({ page }) => {
                     <button className="unselected-button">Dressing</button>
                   </Link>
                   <Link to={`/my-profile/${id}/to-ship`}>
-                    <button className="unselected-button">to Ship</button>
+                    <button className="unselected-button">toShip</button>
                   </Link>
 
                   <button className="selected-button">orders</button>
@@ -112,12 +122,14 @@ const MyProfileInfo = ({ page }) => {
               );
             } else if (page === "settings") {
               return (
-                <div className="my-page-selector">
+              
+                
+                    <div className="my-page-selector">
                   <Link to={`/my-profile/${id}/dressing`}>
                     <button className="unselected-button">Dressing</button>
                   </Link>
                   <Link to={`/my-profile/${id}/to-ship`}>
-                    <button className="unselected-button">to Ship</button>
+                    <button className="unselected-button">toShip</button>
                   </Link>
                   <Link to={`/my-profile/${id}/orders`}>
                     <button className="unselected-button">orders</button>
@@ -125,27 +137,80 @@ const MyProfileInfo = ({ page }) => {
 
                   <button className="selected-button">settings</button>
                 </div>
+                
+                  
+
+                
               );
             }
           })()}
         </div>
 
-        {/* // afisarea pentru fiecare pagina */}
-        {page === "dressing" ? (
-          <div className="dressing-items-container ">
-            {products &&
-              products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  products={product}
-                  title={product.category}
-                />
-              ))}
-          </div>
-        ) : (
-          <ProfileSettings id={id} />
-        )}
-        {/* <div>No items sold yet</div> */}
+
+        <div className="dressing-items-container">
+          {(() => {
+            if (page === "dressing") {
+              return (
+                
+                <div className="dressing-items-container ">
+                {products.length>0 ? (products.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      products={product}
+                      title={product.category}
+                      currentUser = {currentUser}
+                    />
+                  ))) :
+                  (
+                    <div >
+                    No more items in dressing
+                  </div>
+                  )
+                  }
+                </div>
+
+               
+                
+           
+              );
+            } else if (page === "to-shipp") {
+              return (
+                
+                userSoldItemsById[id].length > 0 ? (      
+                
+                  userSoldItemsById[id].map((item) => <SoldItem item = {item} />)
+                 
+               )
+                : (
+                 <div >
+                   No items sold yet
+                 </div>
+
+                 
+               )
+              );
+            } else if (page === "orders") {
+              return (
+                userOrderItemsById[id].length > 0 ? (      
+                
+                  userOrderItemsById[id].map((item) => <OrderItem item = {item} />)
+                 
+               )
+                : (
+                 <div >
+                   No orders to receive yet
+                 </div>
+
+               )
+              );
+            } else if (page === "settings") {
+              return (
+              
+                <ProfileSettings id={id} />
+              );
+            }
+          })()}
+        </div>
       </div>
     ) : (
       <h2>That s not your profile</h2>

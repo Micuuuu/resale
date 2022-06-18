@@ -11,10 +11,12 @@ export const selectUserDataMap = createSelector(
     [selectUserData],
     (elements) => { 
         return elements.reduce((acc, elm) =>{
-        const {email, displayName, createdAt, photoURL, shippingAddress, uid, followersCount,following,
+        const {email,soldItems, displayName, createdAt, photoURL, shippingAddress, uid, followersCount,following,orderList,
+            soldItemsCount
         } = elm
 
-        acc[email.toLowerCase()] ={uid, email, displayName, createdAt, photoURL,shippingAddress,followersCount, following
+        acc[email.toLowerCase()] ={uid, email, displayName, createdAt, photoURL,shippingAddress,followersCount, following, soldItems,orderList,
+            soldItemsCount
         };
         return acc;
       }, {} );
@@ -26,10 +28,10 @@ export const selectUserDataMapById = createSelector(
     [selectUserData],
     (elements) => { 
         return elements.reduce((acc, elm) =>{
-        const {email, displayName, createdAt, photoURL, shippingAddress, uid, followersCount,following,soldItemsCount
+        const {email, displayName, createdAt, photoURL, shippingAddress, uid, followersCount,following,soldItemsCount,orderList
         } = elm
 
-        acc[uid] ={uid, email, displayName, createdAt, photoURL,shippingAddress,followersCount, following, soldItemsCount
+        acc[uid] ={uid, email, displayName, createdAt, photoURL,shippingAddress,followersCount, following, soldItemsCount,orderList
         }; 
         return acc;
       }, {} );
@@ -44,6 +46,35 @@ export const selectFollowersData = createSelector(
         } = elm
 
         acc[email.toLowerCase()] =following;
+        
+        return acc;
+      }, {} );
+     }
+);
+
+export const selectSoldItemsData = createSelector(
+    [selectUserData],
+    (elements) => { 
+        return elements.reduce((acc,elm) =>{
+        const {soldItems, uid
+        } = elm
+
+        acc[uid] =soldItems;
+        
+        return acc;
+      }, {} );
+     }
+);
+
+
+export const selectOrdersData = createSelector(
+    [selectUserData],
+    (elements) => { 
+        return elements.reduce((acc,elm) =>{
+        const {orderList, uid
+        } = elm
+
+        acc[uid] =orderList;
         
         return acc;
       }, {} );
