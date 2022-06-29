@@ -28,7 +28,7 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY, //
   authDomain: "resale-db.firebaseapp.com",
   projectId: "resale-db",
   storageBucket: "resale-db.appspot.com",

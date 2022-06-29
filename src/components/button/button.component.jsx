@@ -1,19 +1,12 @@
-/*
-default
-
-inverted
-
-google sign in
-
-*/
-
 import "./button.styles.scss";
+
 export const BUTTON_TYPES_CLASSES = {
   google: "google-sign-in",
   inverted: "inverted",
   cart: "cart",
   disabled: "disabled"
 };
+
 const Button = ({ children, buttonType, isLoading, ...otherProps }) => {
   /*  console.log(isLoading) */
   return (
