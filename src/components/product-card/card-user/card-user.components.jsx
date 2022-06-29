@@ -11,41 +11,46 @@ import { updateUserFollowingList } from "../../../utils/firebase/firebase.utils"
 
 import "./card-user.styles.scss";
 const CardUser = ({ products, title, currentUser, userDataMap }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { name, price, imageUrl, id, owner } = products;
   const { email } = products.owner;
-  console.log(products)
+  console.log(products);
   const userFollowersDataMap = useSelector(selectFollowersData);
 
-  const [currentUserFollowin, setCurrentUserFollowin] = useState(
-    userFollowersDataMap[currentUser.email]
-  );
+  const [currentUserFollowin, setCurrentUserFollowin] = useState(userFollowersDataMap[currentUser.email]);
 
-  const [isFollowed, setIsFollowed] = useState(
-    currentUserFollowin.includes(userDataMap[email].uid)
-  );
+  const [isFollowed, setIsFollowed] = useState(currentUserFollowin.includes(userDataMap[email].uid));
 
   useEffect(() => {
     setCurrentUserFollowin(userDataMap[currentUser.email].following);
-    setIsFollowed(currentUserFollowin.includes(userDataMap[email].uid))
-  }, [userFollowersDataMap, currentUser, currentUserFollowin, email,userDataMap]);
+    setIsFollowed(currentUserFollowin.includes(userDataMap[email].uid));
+  }, [userFollowersDataMap, currentUser, currentUserFollowin, email, userDataMap]);
 
   const followHandler = async () => {
+    setIsLoading(true);
     try {
-      const updateUserFollowers = await updateUserFollowersCount(
-        userDataMap[email].uid
-      );
-      console.log(updateUserFollowers);
-      const updateUserFollowing = await updateUserFollowingList(
-        currentUser.uid,
-        userDataMap[email].uid
-      );
-      console.log(updateUserFollowing);
+      const updateUserFollowers = await updateUserFollowersCount(userDataMap[email].uid);
+      const updateUserFollowing = await updateUserFollowingList(currentUser.uid, userDataMap[email].uid);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
   return currentUser ? (
     <div className="product-card-container">
+      {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
       <Link to={`/shop/${title}/${id}/details`}>
         <div className="product-card-image-container">
           <img className="product-card-image" src={imageUrl} alt={`${name}`} />
@@ -63,30 +68,23 @@ const CardUser = ({ products, title, currentUser, userDataMap }) => {
         </div>
       ) : (
         <div className="seller-info-container">
-          <img
-            className="seller-info-image"
-            src={userDataMap[email].photoURL}
-            alt=""
-          />
+          <img className="seller-info-image" src={userDataMap[email].photoURL} alt="" />
 
           <div className="seller-info-details">
             <h3>{userDataMap[email].displayName}</h3>
             <div className="buttons">
               <div className="followButton">
                 {!isFollowed ? (
-                  <span className="notfollowed" onClick={followHandler}>follow</span>
+                  <span className="notfollowed" onClick={followHandler}>
+                    follow
+                  </span>
                 ) : (
                   <span>followed</span>
                 )}
               </div>
               <div className="dressingButton">
-              <Link
-                to={`/profile/${userDataMap[email].uid}/dressing`}
-              >
-                See entire dressing
-              </Link>
+                <Link to={`/profile/${userDataMap[email].uid}/dressing`}>See entire dressing</Link>
               </div>
-              
             </div>
           </div>
         </div>

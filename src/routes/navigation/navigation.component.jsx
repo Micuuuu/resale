@@ -58,7 +58,7 @@ const Navigation = () => {
             SELL
           </NavLink>
           {!currentUser && <NavLink to="/auth">SIGN IN</NavLink>}
-          {currentUser && <NavLink to="/sell">FOR YOU</NavLink>}
+          {currentUser && <NavLink to="/for-you">FOR YOU</NavLink>}
         </NavLinksContainer1>
         <LogoContainer to="/">
           <img className="image" src={img} alt = "logo" />

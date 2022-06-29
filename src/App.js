@@ -17,6 +17,7 @@ import MyProfileInfo from "./components/my-profile/my-profile.components";
 import { setCurrentUser } from "./store/user/user.action";
 //User firebase data
 import { setUserData } from "./store/user-data/user-data.action";
+import ForYou from "./routes/for-you/for-you.component";
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/auth" element={<Authentication />} />
         <Route path="/checkout" element={<CheckOutPage />} />
         <Route path="/sell" element={<SellForm />} />
+        <Route path="/for-you" element={<ForYou />} />
         <Route path="/profile/:id/dressing" element={<ProfileInfo page={"dressing"} />} />
         <Route path="/profile/:id/sold" element={<ProfileInfo page={"sold-items"} />} />
         <Route path="/my-profile/:id/dressing" element={<MyProfileInfo page={"dressing"} />} />

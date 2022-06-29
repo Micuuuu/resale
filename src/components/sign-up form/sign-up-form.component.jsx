@@ -65,7 +65,7 @@ const SignUpForm = () => {
   return (
     <div className="sign-up-container">
       {isLoading ? (
-        <div class="lds-ring">
+        <div className="lds-ring">
           <div></div>
           <div></div>
           <div></div>

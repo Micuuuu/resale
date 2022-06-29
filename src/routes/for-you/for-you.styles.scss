@@ -1,0 +1,48 @@
+.for-you {
+  margin-top: 100px;
+  .shop-search-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 100px auto 50px;
+
+    h1 {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+    .search-input {
+      position: relative;
+      input {
+        width: 100%;
+        padding: 12px 24px 12px 48px;
+        border-radius: 10px;
+        outline: none;
+        font-size: 20px;
+        color: white;
+        background-color: #555555;
+        border: none;
+      }
+      svg {
+        enable-background: new 0 0 487.95 487.95;
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        width: 23px;
+        height: 23px;
+      }
+    }
+  }
+}
+.for-you-products {
+  padding: 20px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .product-card-container {
+    margin-right: 40px;
+    margin-bottom: 40px;
+  }
+}
