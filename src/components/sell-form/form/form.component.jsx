@@ -130,7 +130,7 @@ const Form = ({ currentUser, userDataMap }) => {
     <div className="sell-container">
       <h2>Drop your item</h2>
       <span>Give your wardrobe a second life.</span>
-      <ShippingForm id= {currentUser.uid} title = {"Your seller shipping address"}/>
+      <ShippingForm onSubmit = {(e) => {console.log( e.target.value)}} tipe = "sell" id= {currentUser.uid} title = {"Your seller shipping address"}/>
       {/* <div className="shipping-info sell-container-form">
         <div className="shipping-container">
           <h3>Your seller shipping address</h3>
@@ -148,7 +148,6 @@ const Form = ({ currentUser, userDataMap }) => {
           </form>
         </div>
       </div> */}
-      
       <div className=" sell-container-form">
       <h2>Your item info</h2>
         <form onSubmit={itemHandleSubmit}>

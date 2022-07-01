@@ -146,6 +146,7 @@ export const updateUserDocument = async (userAuth, aditionalData, name) => {
   if (name === "shippingAddress") {
     try {
       await updateDoc(userDocRef, { shippingAddress: aditionalData });
+      return true;
     } catch (err) {
       console.log("error creating the user", err.message);
     }
@@ -245,11 +246,14 @@ export const createItemsDocument = async (userDoc, aditionalData) => {
 export const updateItemsDocument = async (category, updates, defaults) => {
   const userDocRef = doc(db, "items", category);
   const { price, gender, title, material, size, color, brand, itemDescription, url, item_id, owner, createdAt } = updates;
+  console.log(updates);
+  console.log(defaults);
+
   try {
     await updateDoc(userDocRef, { items: arrayRemove(defaults) });
     await updateDoc(userDocRef, { items: arrayUnion(updates) });
   } catch (err) {
-    console.log("error creating the user", err.message);
+    console.log(err.message);
   }
 };
 

@@ -13,7 +13,8 @@ const ProductEditForm = () => {
     const products = useSelector(selectProductsById);
     const defaultFormFields = products[id];
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { gender, title,  size,  brand, itemDescription, image, url, price, material,color } = formFields;
+    const { gender, name,  size,  brand, itemDescription, image, url, price, material,color } = formFields;
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -22,13 +23,16 @@ const ProductEditForm = () => {
 
       const handleSubmit = async (event) => {
         event.preventDefault();
-    
+        setIsLoading(true);
+
         try {
           await updateItemsDocument(category, formFields , defaultFormFields);
+          setIsLoading(false);
+          window.location.pathname = `/shop/${category}/${id}/details`;
         } catch (error) {
-          if (error.code === "auth/email-already-in-use")
-            alert("email already in use");
-          console.log("user creation encountered an error", error);
+          setIsLoading(false);
+          alert(error.message)
+          console.log(error);
         }
       };
     // console.log(defaultFormFields)
@@ -41,7 +45,7 @@ const ProductEditForm = () => {
         <form className="edit-form"  onSubmit={handleSubmit}>
           
       
-          <FormInput label="Edit your item name" required type="input" onChange={handleChange} name="title" value={formFields.title} />
+          <FormInput label="Edit your item name" required type="input" onChange={handleChange} name="title" value={name} />
           <select as="select" required className=" dropbtn" defaultValue={gender} name="gender"  onChange={handleChange}>
                 <option>Choose gender...</option>
                 <option>Women</option>

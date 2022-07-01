@@ -19,7 +19,7 @@ const CategoriesPreview = () => {
             {[...categoriesMap["accessories"], ...categoriesMap["clothes"], ...categoriesMap["sneakers"]]
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
-                <ProductCard key={product.id} products={product} title={"All"} currentUser={currentUser} />
+                <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
           </div>
         );
@@ -30,7 +30,7 @@ const CategoriesPreview = () => {
             {categoriesMap["accessories"]
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
-                <ProductCard key={product.id} products={product} title={"All"} currentUser={currentUser} />
+                <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
           </div>
         );
@@ -40,7 +40,7 @@ const CategoriesPreview = () => {
             {categoriesMap["clothes"]
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
-                <ProductCard key={product.id} products={product} title={"All"} currentUser={currentUser} />
+                <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
           </div>
         );
@@ -50,7 +50,7 @@ const CategoriesPreview = () => {
             {categoriesMap["sneakers"]
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
-                <ProductCard key={product.id} products={product} title={"All"} currentUser={currentUser} />
+                <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
           </div>
         );
@@ -60,7 +60,7 @@ const CategoriesPreview = () => {
             {[...categoriesMap["accessories"], ...categoriesMap["clothes"], ...categoriesMap["sneakers"]]
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
-                <ProductCard key={product.id} products={product} title={"All"} currentUser={currentUser} />
+                <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
           </div>
         );

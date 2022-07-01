@@ -29,7 +29,7 @@ function App() {
       console.log(userDataArray)
       dispatch(setUserData(userDataArray));
     };
-    return getUserDataMap();
+     getUserDataMap();
   }, [dispatch]);
 
   useEffect(() => {

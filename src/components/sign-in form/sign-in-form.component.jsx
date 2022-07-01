@@ -17,7 +17,13 @@ const SignInForm = () => {
   const { email, password } = formFields;
 
   const signInWithGoogle = async () => {
-    sigInWithGooglePopup();
+    setIsLoading(true);
+    const google = await sigInWithGooglePopup();
+    if(google) {
+      setIsLoading(false);
+        resetFormFields();
+        window.location.pathname = "/";
+    }
   };
   const resetFormFields = () => {
     setFormFields(defaultFormFields);

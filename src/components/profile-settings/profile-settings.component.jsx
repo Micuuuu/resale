@@ -21,6 +21,8 @@ const ProfileSettings = ({id}) => {
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const unique_id = uuid();
   const userDataMapById = useSelector(selectUserDataMapById);
 
@@ -42,7 +44,7 @@ const ProfileSettings = ({id}) => {
 
 
   const imageHandleUpload = () => {
-    
+    setIsLoading(true);
     const storageRef = ref(storage, `profile-images/${unique_id + imageUrl.name}`);
     const uploadTask = uploadBytesResumable(storageRef, imageUrl);
 
@@ -75,20 +77,38 @@ const ProfileSettings = ({id}) => {
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           console.log("File available at", downloadURL);
           //setItemFormField({ ...itemFormFields, url: downloadURL });
-          
           setImage (image)
-          updateUserDocument(userDataMapById[id], downloadURL, "photoURL")
+          const upload = await updateUserDocument(userDataMapById[id], downloadURL, "photoURL")
           setIsUploaded(false)
+          setIsLoading(false);
+          window.location.pathname = `/my-profile/${id}/settings`;
+        
+          
         });
+
+     
+
+        
+        
       }
     );
   };
 
   return (
     <div className="setting-layout">
+         {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="settings-image-upload-container">
         <h2>Edit Profile Image: </h2>
 
@@ -142,7 +162,7 @@ const ProfileSettings = ({id}) => {
 
         
       </div>
-      <ShippingForm id={id} title = "Shipping / Billing address"/>
+      <ShippingForm id={id} title = "Shipping / Billing address" tipe = "profile"/>
 
       
     </div>

@@ -8,12 +8,14 @@ import { updateUserDocument } from "../../utils/firebase/firebase.utils";
 
 import "./shipping-form.styles.scss";
 
-const ShippingForm = ({id, title}) => {
+const ShippingForm = ({id, title, tipe}) => {
 
       //shipping address form
   const userDataMapById = useSelector(selectUserDataMapById);
   const defaultFormFields = userDataMapById[id].shippingAddress;
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { name, country, county, city, address, zipCode, phoneNumber } =
   formFields;
 
@@ -24,10 +26,15 @@ const ShippingForm = ({id, title}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
+    try{
     try {
-      await updateUserDocument(userDataMapById[id], formFields, "shippingAddress");
-    } catch (error) {
+     
+    await updateUserDocument(userDataMapById[id], formFields, "shippingAddress");
+    
+    } finally {setIsLoading(false);
+      } 
+    }catch (error) {
       if (error.code === "auth/email-already-in-use")
         alert("email already in use");
       console.log("user creation encountered an error", error);
@@ -37,7 +44,16 @@ const ShippingForm = ({id, title}) => {
     return(
 
         <div className="settings-address-upload-container">
-     
+            {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
           <h2>{title}</h2>
           <form className="settings-address-form" onSubmit={handleSubmit}>
             

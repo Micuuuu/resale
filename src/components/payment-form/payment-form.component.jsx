@@ -19,14 +19,18 @@ const PaymentForm = () => {
     const elements = useElements();
     const cartItems = useSelector(selectCartItems);
     const dispatch = useDispatch();
-
+   
     console.log(cartItems);
     const amount = useSelector(selectCartTotal);
     const currentUser = useSelector(selectCurrentUser)
     const [isProcessingPayment, setIsProcessingPayment] = useState(false)
     const [isSuccessful, setisSuccessful] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [cnt, setCnt] = useState(cartItems.length);
     const paymentHandler = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         if (!stripe || !elements) {
           return;
         }
@@ -55,22 +59,32 @@ const PaymentForm = () => {
         setIsProcessingPayment(false);
     
         if (paymentResult.error) {
+          setIsLoading(false);
           alert(paymentResult.error.message);
+
         } else {
           if (paymentResult.paymentIntent.status === 'succeeded') {
             alert('Payment Successful!');
-            setisSuccessful(true)
             clearData()
-            {cartItems.map((item) => {
-              updateSoldItems(item.owner.uid);
-              deleteItem(item);
-              updateUserSoldItems(item);
-              updateUserOrders(item)
-            })}
+            
+            {cartItems.map(async(item) => {
+
+              await updateSoldItems(item.owner.uid);
+              await deleteItem(item);
+              await updateUserSoldItems(item);
+              await updateUserOrders(item)
+             
+            })
+
+          }
+
+            setIsLoading(false);
+         
             
          
           }
         }
+
       };
     
 
@@ -120,6 +134,16 @@ const PaymentForm = () => {
     return(
 
         <div className="payment-form-container">
+             {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
             <form className="form-container" onSubmit={paymentHandler}>
                 <h2>Credit Card Payment</h2>
                 <CardElement className="card-details"  />
