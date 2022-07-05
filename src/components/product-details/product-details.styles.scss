@@ -190,6 +190,38 @@
         align-items: center;
         justify-content: center;
     }
+
+    .followButton {
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        padding-left: 0.4rem;
+        color: #40a9e3;
+
+        .notfollowed {
+          &:hover {
+            font-weight: 600;
+            cursor: pointer;
+          }
+        }
+      }
+      
+    .dressingButton {
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        padding-left: 0.4rem;
+
+        a {
+          color: #e96e6e;
+        }
+        &:hover {
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
     
   }
 

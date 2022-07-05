@@ -84,7 +84,7 @@ const Form = ({ currentUser, userDataMap }) => {
 
   const imageHandleUpload = () => {
     
-    const storageRef = ref(storage, `profile-images/${unique_id + imageUrl.name}`);
+    const storageRef = ref(storage, `images/${unique_id + imageUrl.name}`);
     const uploadTask = uploadBytesResumable(storageRef, imageUrl);
 
     // Register three observers:

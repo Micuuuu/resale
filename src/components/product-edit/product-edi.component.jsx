@@ -39,6 +39,19 @@ const ProductEditForm = () => {
     return(
 
       <div className="edit-item-container">
+        
+    
+             {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
+    
         <h2>Edit your item</h2>
         
           

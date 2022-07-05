@@ -162,7 +162,7 @@ const MyProfileInfo = ({ page }) => {
                     />
                   ))) :
                   (
-                    <div >
+                    <div className="dressing-items-container ">
                     No more items in dressing
                   </div>
                   )

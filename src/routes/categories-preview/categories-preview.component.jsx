@@ -10,6 +10,19 @@ const CategoriesPreview = () => {
   const [searchedValue, setSarchedValue] = useState("");
   const categoriesMap = useSelector(selectCategoriesMap);
   const currentUser = useSelector(selectCurrentUser);
+  const [sort, setSort] = useState("1")
+  const [gender, setGender] = useState("")
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+
+    setSort(value.toLowerCase());
+  };
+  const handleGenderChange = (event) => {
+    const { value } = event.target;
+
+    setGender(value.toLowerCase());
+  };
 
   const renderSelectedValue = () => {
     switch (selectedValue) {
@@ -17,7 +30,25 @@ const CategoriesPreview = () => {
         return (
           <div className="shop-value-all">
             {[...categoriesMap["accessories"], ...categoriesMap["clothes"], ...categoriesMap["sneakers"]]
-              .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
+              .sort((a,b) => {
+                if(sort === "1")
+                 return  (a.createdAt.seconds <  b.createdAt.seconds) ? 1 : -1
+                else if(sort === "3") return  (b.price - a.price ) 
+                else if(sort === "2") return  (a.price -  b.price) 
+              } )
+              .filter((product) =>{
+               
+                if(gender === "men") {
+                  return product.name.toLowerCase().includes(searchedValue.toLowerCase()) && product.gender.toLowerCase() === "men";
+
+                }
+                else if( gender === "women")
+                {
+                  return product.name.toLowerCase().includes(searchedValue.toLowerCase()) && product.gender.toLowerCase() === "women";
+
+                }
+                else return product.name.toLowerCase().includes(searchedValue.toLowerCase())
+              })
               .map((product) => (
                 <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
               ))}
@@ -28,6 +59,12 @@ const CategoriesPreview = () => {
         return (
           <div className="shop-value-all">
             {categoriesMap["accessories"]
+              .sort((a,b) => {
+                if(sort === "1")
+                return  (a.createdAt.seconds <  b.createdAt.seconds) ? 1 : -1
+                else if(sort === "2") return  (a.price >  b.price) ? 1 : -1
+                else if(sort === "3") return  (a.price <  b.price) ? 1 : -1
+              } )
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
                 <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
@@ -38,6 +75,12 @@ const CategoriesPreview = () => {
         return (
           <div className="shop-value-all">
             {categoriesMap["clothes"]
+            .sort((a,b) => {
+              if(sort === "1")
+               return  (a.createdAt.seconds <  b.createdAt.seconds) ? 1 : -1
+              else if(sort === "2") return  (a.price >  b.price) ? 1 : -1
+              else if(sort === "3") return  (a.price <  b.price) ? 1 : -1
+            } )
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
                 <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
@@ -48,6 +91,12 @@ const CategoriesPreview = () => {
         return (
           <div className="shop-value-all">
             {categoriesMap["sneakers"]
+            .sort((a,b) => {
+              if(sort === "1")
+               return  (a.createdAt.seconds <  b.createdAt.seconds) ? 1 : -1
+              else if(sort === "2") return  (a.price >  b.price) ? 1 : -1
+              else if(sort === "3") return  (a.price <  b.price) ? 1 : -1
+            } )
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
                 <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
@@ -58,6 +107,12 @@ const CategoriesPreview = () => {
         return (
           <div className="shop-value-all">
             {[...categoriesMap["accessories"], ...categoriesMap["clothes"], ...categoriesMap["sneakers"]]
+            .sort((a,b) => {
+              if(sort === "1")
+               return  (a.createdAt.seconds <  b.createdAt.seconds) ? 1 : -1
+              else if(sort === "2") return  (a.price >  b.price) ? 1 : -1
+              else if(sort === "3") return  (a.price <  b.price) ? 1 : -1
+            } )
               .filter((product) => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
               .map((product) => (
                 <ProductCard key={product.id} products={product} title={product.category} currentUser={currentUser} />
@@ -98,7 +153,21 @@ const CategoriesPreview = () => {
             Sneakers
           </div>
         </div>
+
       </div>
+      <div className="dropdown-content">
+      <select className=" dropbtn"  defaultValue="Sort" onChange={handleChange} >
+       <option value="1">Sort - New in</option>
+       <option value="2">Sort - Price: Low to High</option>
+       <option value="3">Sort - Price: High to Low</option>
+      </select>
+      <select className=" dropbtn"  defaultValue="Gender" onChange={handleGenderChange} >
+       <option value="0">Gender:</option>
+       <option value="women">women</option>
+       <option value="men">men</option>
+      </select>
+      </div>
+      
 
       {renderSelectedValue()}
     </div>

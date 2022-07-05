@@ -32,7 +32,7 @@ const DirectoryMenu = () => {
           <div className = 'promo-copy'>
             <div className='promo-copy-texts'>
               <h2 className='promo-copy-text promo-copy-heading'>2 WEAR</h2>
-              <h3 className='promo-copy-text promo-copy-subheading'>Join us in redefining second hand market </h3>
+              <h3 className='promo-copy-text promo-copy-subheading'>Give fashion a second chance</h3>
               <p className='promo-copy-text promo-copy-paragraph'>When you buy or sell a pre-owned fashion item, 
                 you extend its life by approximately 9 months, 
                 which can lead to almost 30% decrease of its carbon footprint. </p>

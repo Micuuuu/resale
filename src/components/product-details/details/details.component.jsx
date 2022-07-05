@@ -13,6 +13,7 @@ import { updateUserFollowingList } from "../../../utils/firebase/firebase.utils"
 const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, currentUser }) => {
   const { category, id } = useParams();
   const [product, setProduct] = useState(productsIdMap[id]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { brand, color, createdAt, gender, imageUrl, itemDescription, material, name, owner, price, size } = product;
 
@@ -37,13 +38,16 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
   const fireBaseTime = new Date(createdAt.seconds * 1000 + createdAt.nanoseconds / 1000000);
 
   const followHandler = async () => {
+    setIsLoading(true);
     try {
       const updateUserFollowers = await updateUserFollowersCount(userDataMap[email].uid);
-      console.log(updateUserFollowers);
       const updateUserFollowing = await updateUserFollowingList(currentUser.uid, userDataMap[email].uid);
-      console.log(updateUserFollowing);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -51,6 +55,16 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
   // const atTime = fireBaseTime.toLocaleTimeString();
   return (
     <div className="product-details-container">
+          {isLoading ? (
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="images-container">
         <img className="image-thumbnail" src={imageUrl} alt="" />
       </div>
@@ -131,9 +145,17 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
               <div className="seller-info-details">
                 <h3>{userDataMap[email].displayName}</h3>
               <div>
-                <div className="followButton">{!isFollowed ? <span onClick={followHandler}>follow</span> : <span>followed</span>}</div>
-
+              <div className="followButton">
+                {!isFollowed ? (
+                  <span className="notfollowed" onClick={followHandler}>
+                    follow
+                  </span>
+                ) : (
+                  <span>followed</span>
+                )}
+              </div>                <div className="dressingButton">
                 <Link to={`/profile/${userDataMap[email].uid}/dressing`}>See entire dressing</Link>
+                </div>
               </div>
               </div>
           </div>
@@ -143,7 +165,7 @@ const Details = ({ productsIdMap, userDataMap, userFollowersDataMap, cartItems, 
       
 
       <div className="product-button-details">
-      {currentUser.email === email ? ( <Button type="button" buttonType="disabled"  onClick={addProductToCart}>
+      {currentUser.email === email ? ( <Button type="button" buttonType="disabled"  >
           Disabled
         </Button> ) : (
          

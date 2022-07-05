@@ -1,3 +1,19 @@
+
+.profile-dropdown-container-wrapper {
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
+  animation: fade;
+  animation-duration: 0.3s;
+}
 .cart-dropdown-container {
     position: absolute;
     width: 240px;
@@ -8,8 +24,8 @@
     border: 1px solid transparent;
     background-color: white;
     border-radius: 10px;
-    top: 90px;
-    right: 40px;
+    top: 60px;
+    right: 10px;
     z-index: 5;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
@@ -29,6 +45,14 @@
   
     button {
       margin-top: auto;
+    }
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
   

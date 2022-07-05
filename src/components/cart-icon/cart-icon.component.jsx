@@ -25,6 +25,7 @@ const CartIcon = ({currentUser}) =>{
              dispatch(setIsCartOpen(!isCartOpen))
         }
     }
+  
     return( 
         <div>
         <div className='cart-icon-container'  id = "Cart"  onClick={toggleIsCartOpen} >
