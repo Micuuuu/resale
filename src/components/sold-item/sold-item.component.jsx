@@ -4,7 +4,6 @@ import React from "react"
 import "./sold-item.styles.scss"
 const SoldItem = ({item}) => {
 
-    console.log(item);
 
     return(
         <div className="sold-item-container">

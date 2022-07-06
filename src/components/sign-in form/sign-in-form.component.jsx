@@ -40,7 +40,6 @@ const SignInForm = () => {
     try {
       const signIn = await SignInAuthWithEmailAndPassword(email, password);
       if (signIn) {
-        console.log(signIn);
         setIsLoading(false);
         resetFormFields();
         window.location.pathname = "/";

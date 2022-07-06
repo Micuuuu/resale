@@ -14,7 +14,6 @@ const CardUser = ({ products, title, currentUser, userDataMap }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { name, price, imageUrl, id, owner } = products;
   const { email } = products.owner;
-  console.log(products);
   const userFollowersDataMap = useSelector(selectFollowersData);
 
   const [currentUserFollowin, setCurrentUserFollowin] = useState(userFollowersDataMap[currentUser.email]);

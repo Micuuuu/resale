@@ -32,7 +32,6 @@ const Navigation = () => {
   
   const openSigninPopup = (e) => {
     if (!currentUser) {
-      console.log(e.target.id);
       setPageName(e.target.id)
       e.preventDefault();
       setShowPopup(true);

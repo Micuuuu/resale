@@ -5,7 +5,6 @@ import ProfileInfo from '../../components/profile-page-info/profile-page-info';
 
 const Profile = () => {
     const { id } = useParams();
-    console.log(id)
 
 
     return (

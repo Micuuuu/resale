@@ -28,13 +28,9 @@ const MyProfileInfo = ({ page }) => {
     var newArray = allProducts.filter((el) => {
       return el.owner.uid === id;
     });
-    console.log(newArray);
     setProducts(newArray);
 
-    // const numAscending = [...newArray].sort(
-    //   (a, b) => a.createdAt.seconds - b.createdAt.seconds
-    // );
-    // console.log(numAscending);
+    
   }, [id, allProducts]);
   const userDataMapById = useSelector(selectUserDataMapById);
   return currentUser ? (

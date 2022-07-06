@@ -151,7 +151,6 @@ export const updateUserFollowersCount = async (userAuth) => {
   const userDocRef = doc(db, "users", userAuth);
   try {
     const response = await updateDoc(userDocRef, { followersCount: increment(1) });
-    console.log(response);
   } catch (err) {
     console.log("error", err.message);
   }
@@ -161,7 +160,6 @@ export const updateUserSoldItemsCount = async (userAuth) => {
   const userDocRef = doc(db, "users", userAuth);
   try {
     const response = await updateDoc(userDocRef, { soldItemsCount: increment(1) });
-    console.log(response);
   } catch (err) {
     console.log("error", err.message);
   }
@@ -172,7 +170,6 @@ export const updateUserFollowingList = async (userAuth, aditionalData) => {
 
   try {
     const response = await updateDoc(userDocRef, "following", arrayUnion(aditionalData));
-    console.log(response);
   } catch (err) {
     console.log("error", err.message);
   }
@@ -183,7 +180,6 @@ export const updateUserSoldItemList = async (userAuth, aditionalData) => {
 
   try {
     const response = await updateDoc(userDocRef, "soldItems", arrayUnion(aditionalData));
-    console.log(response);
   } catch (err) {
     console.log("error", err.message);
   }
@@ -194,7 +190,6 @@ export const updateUserOrderList = async (userAuth, aditionalData) => {
 
   try {
     const response = await updateDoc(userDocRef, "orderList", arrayUnion(aditionalData));
-    console.log(response);
   } catch (err) {
     console.log("error", err.message);
   }
@@ -202,9 +197,7 @@ export const updateUserOrderList = async (userAuth, aditionalData) => {
 
 export const createItemsDocument = async (userDoc, aditionalData) => {
   const { price, gender, title, category, material, size, color, brand, itemDescription, url, item_id } = aditionalData;
-  console.log(aditionalData);
   const { uid, email } = userDoc;
-  console.log(userDoc);
   const DocRef = doc(db, "items", category);
   const createdAt = new Date();
 
@@ -234,8 +227,7 @@ export const createItemsDocument = async (userDoc, aditionalData) => {
 export const updateItemsDocument = async (category, updates, defaults) => {
   const userDocRef = doc(db, "items", category);
   const { price, gender, title, material, size, color, brand, itemDescription, url, item_id, owner, createdAt } = updates;
-  console.log(updates);
-  console.log(defaults);
+
 
   try {
     await updateDoc(userDocRef, { items: arrayRemove(defaults) });

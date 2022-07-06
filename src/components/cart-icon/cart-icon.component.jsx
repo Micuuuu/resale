@@ -14,7 +14,6 @@ const CartIcon = ({currentUser}) =>{
     const [pageName, setPageName] = useState("");
     const toggleIsCartOpen = (e) => {
         if (!currentUser) {
-            console.log(e.currentTarget)
             setPageName(e.currentTarget.id)
             e.preventDefault();
             setShowPopup(true);

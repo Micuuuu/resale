@@ -35,7 +35,6 @@ const ProductEditForm = () => {
           console.log(error);
         }
       };
-    // console.log(defaultFormFields)
     return(
 
       <div className="edit-item-container">

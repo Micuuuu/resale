@@ -8,7 +8,6 @@ const ProfileIcon = () => {
   const dispatch = useDispatch();
   const isProfileDropdownOpen = useSelector(selectIsProfileDropdownOpen);
   const toggle = () => {
-    // console.log("deschidem");
 
     dispatch(setIsProfileDropdownOpen(!isProfileDropdownOpen));
   };

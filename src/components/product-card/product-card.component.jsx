@@ -6,7 +6,6 @@ import CardNoUser from "./card-no-user/card-no-user.component";
 const ProductCard = ({ products, title, currentUser }) => {
   
   const userDataMap = useSelector(selectUserDataMap);
-  console.log(currentUser);
   return (
     currentUser ? ( <CardUser products = {products} title = {title} currentUser = {currentUser} userDataMap = {userDataMap} />
 

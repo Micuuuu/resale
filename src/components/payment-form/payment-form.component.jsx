@@ -21,7 +21,6 @@ const PaymentForm = () => {
     const cartItems = useSelector(selectCartItems);
     const dispatch = useDispatch();
    
-    console.log(cartItems);
     const amount = useSelector(selectCartTotal);
     const currentUser = useSelector(selectCurrentUser)
     const [isProcessingPayment, setIsProcessingPayment] = useState(false)
@@ -47,7 +46,6 @@ const PaymentForm = () => {
         });
     
         const clientSecret = response.paymentIntent.client_secret;
-        console.log(response.paymentIntent)
         const paymentResult = await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
             card: elements.getElement(CardElement),
@@ -103,7 +101,6 @@ const PaymentForm = () => {
       }
 
       const deleteItem = async (item) => {
-        console.log(item);
         const {brand, category, color, createdAt, gender, id, imageUrl, itemDescription, material, name, owner, price, size  } = item;
         try {
           await deleteItemsDocument(item.category, {brand, category, color, createdAt, gender, id, imageUrl, itemDescription, material, name, owner, price, size  });

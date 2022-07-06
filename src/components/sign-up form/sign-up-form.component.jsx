@@ -36,16 +36,14 @@ const SignUpForm = () => {
     setErrorMessage("");
     setIsLoading(true);
     if (password !== confirmPassword) {
-      alert("Password do not match");
+      setErrorMessage("Password do not match");
       setIsLoading(false);
       return;
     }
 
     try {
       const { user } = await getAuthWithEmailAndPassword(email, password);
-      console.log("user", user);
       const createUser = await createUserDocumentFromAuth(user, { displayName: displayName, photoURL: photoURL, gender: gender });
-      console.log("createUser", createUser);
 
       if (createUser && user) {
         setIsLoading(false);

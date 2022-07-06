@@ -35,9 +35,8 @@ const ShippingForm = ({id, title, tipe}) => {
     } finally {setIsLoading(false);
       } 
     }catch (error) {
-      if (error.code === "auth/email-already-in-use")
-        alert("email already in use");
-      console.log("user creation encountered an error", error);
+      
+      console.log(error);
     }
   };
 

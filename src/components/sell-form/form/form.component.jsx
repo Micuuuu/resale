@@ -42,7 +42,6 @@ const Form = ({ currentUser, userDataMap }) => {
   const [progress, setProgress] = useState(0);
 
   const itemHandleChange = (event) => {
-    console.log(event);
     const { name, value} = event.target;
     setItemFormField({ ...itemFormFields, [name]: value });
     if (event.target.files) {
@@ -61,8 +60,8 @@ const Form = ({ currentUser, userDataMap }) => {
     try {
       await createItemsDocument(currentUser, itemFormFields);
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") alert("email already in use");
-      console.log("user creation encountered an error", error);
+      
+      console.log(error);
     }
   };
 

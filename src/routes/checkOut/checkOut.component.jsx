@@ -10,7 +10,6 @@ import "./checkOut.styles.scss";
 
 const CheckOutPage = () => {
   const cartItems = useSelector(selectCartItems);
-  console.log(cartItems)
   const total = useSelector(selectCartTotal);
   return (
     <div className="checkOut-container">
