@@ -71,14 +71,7 @@ export const getCategoriesAndDocuments = async () => {
 
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 
-  //din curs
-  // .reduce((acc, docSnapshot) =>{
-  //   const {title, items} = docSnapshot.data()
-  //   acc[title.toLowerCase()] =items;
-  //   return acc;
-  // }, {}  );
 
-  //return categoryMap;
 };
 
 export const getUserData = async () => {
@@ -86,13 +79,7 @@ export const getUserData = async () => {
   const q = query(collectionRef);
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
-  // .reduce((acc, docSnapshot) =>{
-  //   const {title, items} = docSnapshot.data()
-  //   acc[title.toLowerCase()] =items;
-  //   return acc;
-  // }, {}  );
-
-  //return categoryMap;
+ 
 };
 export const createUserDocumentFromAuth = async (userAuth, aditionalData) => {
   const userDocRef = doc(db, "users", userAuth.uid);
@@ -215,8 +202,9 @@ export const updateUserOrderList = async (userAuth, aditionalData) => {
 
 export const createItemsDocument = async (userDoc, aditionalData) => {
   const { price, gender, title, category, material, size, color, brand, itemDescription, url, item_id } = aditionalData;
-
+  console.log(aditionalData);
   const { uid, email } = userDoc;
+  console.log(userDoc);
   const DocRef = doc(db, "items", category);
   const createdAt = new Date();
 

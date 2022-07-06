@@ -6,6 +6,7 @@ import { selectCartTotal } from "../../store/cart/cart.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectCartItems } from "../../store/cart/cart.selector";
 import Button, {BUTTON_TYPES_CLASSES} from "../button/button.component"
+import PaymentPopup from "../payment-popup/payment.popup.component";
 import "./payment-form.styles.scss"
 
 
@@ -24,9 +25,9 @@ const PaymentForm = () => {
     const amount = useSelector(selectCartTotal);
     const currentUser = useSelector(selectCurrentUser)
     const [isProcessingPayment, setIsProcessingPayment] = useState(false)
-    const [isSuccessful, setisSuccessful] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [cnt, setCnt] = useState(cartItems.length);
+    const [showPopup, setShowPopup] = useState(false);
+
     const paymentHandler = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -64,18 +65,16 @@ const PaymentForm = () => {
 
         } else {
           if (paymentResult.paymentIntent.status === 'succeeded') {
-            alert('Payment Successful!');
             clearData()
-            
+            setShowPopup(true)
             {cartItems.map(async(item) => {
-
               await updateSoldItems(item.owner.uid);
               await deleteItem(item);
               await updateUserSoldItems(item);
               await updateUserOrders(item)
              
             })
-
+            
           }
 
             setIsLoading(false);
@@ -149,6 +148,9 @@ const PaymentForm = () => {
                 <CardElement className="card-details"  />
                 <Button  isLoading= {isProcessingPayment} buttonType = {BUTTON_TYPES_CLASSES.inverted}> Pay now</Button>
             </form>
+
+            {showPopup && <PaymentPopup setShowPopup={setShowPopup}  />}
+
         </div>
     )
 

@@ -22,7 +22,8 @@ const itemDefaultFormFields = {
   color: "",
   material: "",
   itemDescription: "",
-  image: "",
+  url: "",
+  
 };
 
 const Form = ({ currentUser, userDataMap }) => {
